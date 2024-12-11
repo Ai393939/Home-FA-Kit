@@ -1,0 +1,37 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.AddMedicineToTakePage"
+             Title="Добавление лекарства">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label Text="Выберите лекарство:" FontSize="18" />
+            <Picker x:Name="medicinePicker" />
+
+            <Label Text="Выберите дату начала:" FontSize="18" />
+            <DatePicker x:Name="dateFromPicker" />
+
+            <Label Text="Выберите дату окончания:" FontSize="18" />
+            <DatePicker x:Name="dateToPicker" />
+
+            <Label Text="Выберите дни недели:" FontSize="18" />
+            <ListView x:Name="daysOfWeekListView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" Padding="10">
+                                <CheckBox IsChecked="{Binding IsSelected}" 
+                                          CheckedChanged="OnDayCheckedChanged" />
+                                <Label Text="{Binding DayName}" VerticalOptions="Center" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <Label Text="Выберите время приема:" FontSize="18" />
+            <TimePicker x:Name="timePicker" Format="HH:mm" PropertyChanged="OnTimePickerPropertyChanged" />
+
+            <Button Text="Добавить лекарство" Clicked="OnAddMedicineClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,53 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Home_FA_Kit"
+             x:Class="Home_FA_Kit.MainPage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
+
+    <ContentPage.Content>
+        <StackLayout Padding="7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{x:Static resources:AppResources.Pharmacies}" FontSize="18" Grid.Column="0" HorizontalTextAlignment="Center" />
+                <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="1" />
+            </Grid>
+            <ListView x:Name="pharmaciesListView" ItemTapped="OnPharmacyTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <BoxView Grid.Column="0" BackgroundColor="{AppThemeBinding Light=#9F57FF, Dark={StaticResource MidnightBlue}}" VerticalOptions="Center" HeightRequest="40" />
+                                <StackLayout Grid.Column="0" Padding="10,5" VerticalOptions="Center">
+                                    <Label Text="{Binding Name}" FontSize="20" VerticalOptions="Center" />
+                                </StackLayout>
+                                <Button Grid.Column="1" Text="..." BackgroundColor="#C5C5C5" Clicked="OnEllipsisClicked" CommandParameter="{Binding}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="{x:Static resources:AppResources.Button_CreateNewPharmacy}" Clicked="OnCreatePharmacyClicked" />
+
+            <!-- Добавляем кнопки навигации -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Text="{x:Static resources:AppResources.Pharmacies}" Clicked="OnPharmaciesClicked" Grid.Column="0" />
+                <Button Text="{x:Static resources:AppResources.Medication}" Clicked="OnMedicationClicked" Grid.Column="1" />
+                <Button Text="{x:Static resources:AppResources.Statistics}" Clicked="OnStatisticsClicked" Grid.Column="2" />
+                <Button Text="{x:Static resources:AppResources.Settings}" Clicked="OnSettingsClicked" Grid.Column="3" />
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

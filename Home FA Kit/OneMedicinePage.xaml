@@ -1,0 +1,29 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.OneMedicinePage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings"
+             Title="{x:Static resources:AppResources.EditMedicine}">
+    
+    <ContentPage.Content>
+        <StackLayout Padding="7">
+            <Label Text="{x:Static resources:AppResources.EditMedicine}" FontSize="18" />
+            <Entry x:Name="medicineNameEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineName}" />
+            <Entry x:Name="medicineDescriptionEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineDescription}" />
+            <Entry x:Name="medicineCostEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineCost}" />
+            <Entry x:Name="medicineExpirationDateEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineExpirationDate}" />
+            <Entry x:Name="medicineActiveIngredientEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineActiveIngredient}" />
+            <Entry x:Name="medicineManufacturerEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineManufacturer}" />
+            <Entry x:Name="medicineCountryEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineCountry}" />
+            <Entry x:Name="medicinePharmacologicalEffectEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicinePharmacologicalEffect}" />
+            <Entry x:Name="medicineFormEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineForm}" />
+            <Entry x:Name="medicineNoteEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineNote}" />
+            <Entry x:Name="medicineQuantityEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineQuantity}" />
+            <!-- Добавляем поле для количества -->
+
+            <Picker x:Name="categoryPicker" Title="{x:Static resources:AppResources.Picker_Category}" SelectedIndexChanged="OnCategorySelected" />
+            <Picker x:Name="subCategoryPicker" Title="{x:Static resources:AppResources.Picker_SubCategory}" />
+
+            <Button Text="{x:Static resources:AppResources.Button_Save}" Clicked="OnSaveMedicineClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

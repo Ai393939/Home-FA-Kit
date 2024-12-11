@@ -1,0 +1,88 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:local="clr-namespace:Home_FA_Kit"
+             x:Class="Home_FA_Kit.MedicinesPage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ExpirationDateConverter x:Key="ExpirationDateConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Padding="7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" Grid.Column="0" />
+                <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="1" />
+                <Button Text="{x:Static resources:AppResources.Button_SortDirection}" Clicked="OnSortDirectionClicked" Grid.Column="2" />
+            </Grid>
+
+            <!-- Поиск -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Entry x:Name="searchEntry" Placeholder="{x:Static resources:AppResources.Search}" Grid.Column="0" TextChanged="OnSearchTextChanged" />
+                <Button Text="{x:Static resources:AppResources.Search}" Clicked="OnSearchClicked" Grid.Column="1" />
+                <Button Text="{x:Static resources:AppResources.Button_ResetFilter}" Clicked="OnResetFilterClicked" Grid.Column="2" />
+            </Grid>
+
+            <ListView x:Name="medicinesListView" ItemTapped="OnMedicineTapped">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0" Padding="0,5">
+                                    <Label Text="{Binding Name}" FontSize="16" />
+
+                                    <!-- Количество -->
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="12" />
+                                        
+                                        <Label Text="{Binding Quantity}" FontSize="12" />
+                                    </StackLayout>
+
+                                    <!-- Стоимость -->
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="{x:Static resources:AppResources.Cost}" FontSize="12" />
+                                        <Label Text="{Binding Cost}" FontSize="12" />
+                                    </StackLayout>
+
+                                    <!-- Срок годности -->
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="12" />
+                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:yyyy-MM-dd}'}" FontSize="12" />
+                                    </StackLayout>
+
+                                    <!-- Статус срока годности -->
+                                    <Label x:Name="ExpirationStatusLabel" FontSize="12">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateConverter}}" Value="True">
+                                                <Setter Property="Text" Value="{x:Static resources:AppResources.Expired}" />
+                                                <Setter Property="BackgroundColor" Value="Red" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </StackLayout>
+                                <Button Grid.Column="1" Text="x" BackgroundColor="Red" Clicked="OnEllipsisClicked" CommandParameter="{Binding}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="{x:Static resources:AppResources.Button_CreateNewMedicine}" Clicked="OnCreateMedicineClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,13 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.EditTakingMedicationPage"
+             Title="Редактирование лекарства">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Label x:Name="medicineNameLabel" FontSize="18" FontAttributes="Bold" />
+            <Label Text="Время приема:" FontSize="16" />
+            <TimePicker x:Name="timePicker" Format="HH:mm" />
+            <Button Text="Сохранить" Clicked="OnSaveClicked" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

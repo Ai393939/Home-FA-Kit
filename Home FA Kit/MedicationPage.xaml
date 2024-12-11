@@ -1,0 +1,95 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.MedicationPage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings"
+             Title="{x:Static resources:AppResources.Medication}">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Вертикальный список дат -->
+            <ScrollView Grid.Column="0">
+                <CollectionView x:Name="dateCollectionView" ItemsSource="{Binding Calendar.Dates}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout>
+                                <!-- Кнопка с датой -->
+                                <Button Text="{Binding ., StringFormat='{0:dd.MM.yyyy}'}"
+                                    CommandParameter="{Binding .}"
+                                    Clicked="OnDateClicked" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+            <!-- Список лекарств -->
+            <StackLayout Grid.Column="1">
+                <!-- Отображение текущей даты -->
+                <Label x:Name="dateLabel" Text="Дата" FontSize="20" HorizontalOptions="Center" />
+
+                <!-- Заголовок списка лекарств -->
+                <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" />
+
+                <!-- Список лекарств -->
+                <ListView x:Name="medicinesListView" ItemsSource="{Binding Medicines}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout>
+                                        <!-- Название лекарства -->
+                                        <Label Text="{Binding Medicine.Name}" FontSize="16" />
+                                        <!-- Время приема -->
+                                        <Label Text="{Binding Time, StringFormat='{0:HH:mm}'}" FontSize="14" />
+                                    </StackLayout>
+                                    <!-- Кнопка "Принято" -->
+                                    <Button Text="Принято" Clicked="OnMedicineTakenClicked" CommandParameter="{Binding .}" Grid.Column="1">
+                                        <Button.Triggers>
+                                            <!-- Изменение цвета кнопки в зависимости от IsTaken -->
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsTaken}" Value="True">
+                                                <Setter Property="BackgroundColor" Value="Green" />
+                                                <Setter Property="TextColor" Value="White" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                    <!-- Кнопка "Редактировать" -->
+                                    <Button Text="Редактировать" Clicked="OnEditMedicineClicked" CommandParameter="{Binding .}" Grid.Column="2" />
+                                    <!-- Кнопка "Удалить" -->
+                                    <Button Text="Удалить" Clicked="OnDeleteMedicineClicked" CommandParameter="{Binding .}" Grid.Column="3" BackgroundColor="Red" TextColor="White" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!-- Кнопка добавления лекарства -->
+                <Button Text="{x:Static resources:AppResources.AddMedicine}" Clicked="OnAddMedicineClicked" />
+
+                <!-- Навигационные кнопки -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Text="{x:Static resources:AppResources.Pharmacies}" Clicked="OnPharmaciesClicked" Grid.Column="0" />
+                    <Button Text="{x:Static resources:AppResources.Medication}" Clicked="OnMedicationClicked" Grid.Column="1" />
+                    <Button Text="{x:Static resources:AppResources.Statistics}" Clicked="OnStatisticsClicked" Grid.Column="2" />
+                    <Button Text="{x:Static resources:AppResources.Settings}" Clicked="OnSettingsClicked" Grid.Column="3" />
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
