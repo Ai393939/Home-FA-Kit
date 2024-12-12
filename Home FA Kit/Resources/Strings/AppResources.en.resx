@@ -166,7 +166,7 @@
     <value>Enter expiration date</value>
   </data>
   <data name="Entry_MedicineForm" xml:space="preserve">
-    <value>Enter form (yyyy-MM-dd)</value>
+    <value>Enter form (dd.MM.yyyy)</value>
   </data>
   <data name="Entry_MedicineManufacturer" xml:space="preserve">
     <value>Enter manufacturer</value>

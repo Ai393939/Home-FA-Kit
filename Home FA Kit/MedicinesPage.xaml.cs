@@ -164,7 +164,7 @@ namespace Home_FA_Kit
             }
         }
 
-        private async void OnSearchClicked(object sender, EventArgs e)
+        private void OnSearchClicked(object sender, EventArgs e)
         {
             var searchText = searchEntry.Text;
 
@@ -174,64 +174,28 @@ namespace Home_FA_Kit
                 return;
             }
 
-            searchText = searchEntry.Text.ToLower();
+            searchText = searchText.ToLower();
 
-            var searchType = await DisplayActionSheet("Выберите тип поиска", "Отмена", null, "По названию", "По цене", "По дате истечения", "По активному веществу", "По производителю", "По стране", "По категории");
-
-            ObservableCollection<Medicine> filteredMedicines;
-
-            switch (searchType)
-            {
-                case "По названию":
-                    filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Name.ToLower().Contains(searchText)));
-                    break;
-                case "По цене":
-                    if (int.TryParse(searchText, out int cost))
-                    {
-                        filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Cost == cost));
-                    }
-                    else
-                    {
-                        await DisplayAlert("Ошибка", "Введите корректную цену", "OK");
-                        return;
-                    }
-                    break;
-                case "По дате истечения":
-                    if (DateTime.TryParse(searchText, out DateTime expirationDate))
-                    {
-                        filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.ExpirationDate == expirationDate));
-                    }
-                    else
-                    {
-                        await DisplayAlert("Ошибка", "Введите корректную дату истечения", "OK");
-                        return;
-                    }
-                    break;
-                case "По активному веществу":
-                    filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.ActiveIngredient.ToLower().Contains(searchText)));
-                    break;
-                case "По производителю":
-                    filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Manufacturer.ToLower().Contains(searchText)));
-                    break;
-                case "По стране":
-                    filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Country.ToLower().Contains(searchText)));
-                    break;
-                case "По категории":
-                    filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Category?.Name.ToLower().Contains(searchText) == true));
-                    break;
-                default:
-                    return;
-            }
+            var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.ToString().ToLower().Contains(searchText)));
 
             medicinesListView.ItemsSource = filteredMedicines;
         }
 
         private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(e.NewTextValue))
+            var searchText = e.NewTextValue;
+
+            if (string.IsNullOrWhiteSpace(searchText))
             {
                 medicinesListView.ItemsSource = _pharmacy.Medicines;
+                return;
             }
+
+            searchText = searchText.ToLower();
+
+            var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.ToString().ToLower().Contains(searchText)));
+
+            medicinesListView.ItemsSource = filteredMedicines;
         }
 
         private void OnResetFilterClicked(object sender, EventArgs e)

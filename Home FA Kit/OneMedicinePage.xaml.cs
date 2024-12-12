@@ -41,7 +41,7 @@ namespace Home_FA_Kit
             medicineDescriptionEntry.Text = originalMedicine.Description;
             medicineCostEntry.Text = originalMedicine.Cost.ToString();
             medicineQuantityEntry.Text = originalMedicine.Quantity.ToString();
-            medicineExpirationDateEntry.Text = originalMedicine.ExpirationDate.ToString("yyyy-MM-dd");
+            medicineExpirationDateEntry.Text = originalMedicine.ExpirationDate.ToString("dd.MM.yyyy");
             medicineActiveIngredientEntry.Text = originalMedicine.ActiveIngredient;
             medicineManufacturerEntry.Text = originalMedicine.Manufacturer;
             medicineCountryEntry.Text = originalMedicine.Country;

@@ -157,7 +157,7 @@
     <value>Введите стоимость</value>
   </data>
   <data name="Entry_MedicineExpirationDate" xml:space="preserve">
-    <value>Введите срок годности (yyyy-MM-dd)</value>
+    <value>Введите срок годности (dd.MM.yyyy)</value>
   </data>
   <data name="Entry_MedicineActiveIngredient" xml:space="preserve">
     <value>Введите активный ингредиент</value>

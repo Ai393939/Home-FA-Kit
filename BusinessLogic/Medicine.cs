@@ -118,7 +118,7 @@ namespace BusinessLayer
         public override string ToString()
         {
             return String.Format($"{Name} {Description} {Cost} {ExpirationDate} {ActiveIngredient} {Manufacturer} {Country} " +
-                $"{PharmacologicalEffect} {Form} {Note} {Category.Name} {Quantity}");
+                $"{PharmacologicalEffect} {Form} {Note} {Category.Name} {Category.Subcategories[0].Name} {Quantity} ");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

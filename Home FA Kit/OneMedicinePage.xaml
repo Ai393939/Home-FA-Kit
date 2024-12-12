@@ -10,7 +10,8 @@
             <Entry x:Name="medicineNameEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineName}" />
             <Entry x:Name="medicineDescriptionEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineDescription}" />
             <Entry x:Name="medicineCostEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineCost}" />
-            <Entry x:Name="medicineExpirationDateEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineExpirationDate}" />
+            <Entry x:Name="medicineExpirationDateEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineExpirationDate}" 
+                   Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" />
             <Entry x:Name="medicineActiveIngredientEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineActiveIngredient}" />
             <Entry x:Name="medicineManufacturerEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineManufacturer}" />
             <Entry x:Name="medicineCountryEntry" Placeholder="{x:Static resources:AppResources.Entry_MedicineCountry}" />

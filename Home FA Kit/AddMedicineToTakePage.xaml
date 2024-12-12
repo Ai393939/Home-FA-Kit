@@ -14,6 +14,7 @@
             <DatePicker x:Name="dateToPicker" />
 
             <Label Text="Выберите дни недели:" FontSize="18" />
+            <Button Text="Выбрать все дни" Clicked="OnSelectAllDaysClicked" />
             <ListView x:Name="daysOfWeekListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>

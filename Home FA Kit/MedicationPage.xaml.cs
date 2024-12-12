@@ -69,10 +69,16 @@ namespace Home_FA_Kit
             }
         }
 
-        private void OnDeleteMedicineClicked(object sender, EventArgs e)
+        private async void OnDeleteMedicineClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is MedicineTakenStatus selectedMedicine)
             {
+                var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить это лекарство?", "Да", "Нет");
+                if (!result)
+                {
+                    return;
+                }
+
                 _currentEvent.RemoveMedicine(selectedMedicine.Medicine);
                 if (_currentEvent.Medicines.Count == 0) _pharmacyApp.Calendar.Events.Remove(_currentEvent);
                 PharmacyAppSaver.SaveToFile(_pharmacyApp, "pharmacyApp.json");

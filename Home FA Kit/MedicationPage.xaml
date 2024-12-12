@@ -33,14 +33,14 @@
                 <Label x:Name="dateLabel" Text="Дата" FontSize="20" HorizontalOptions="Center" />
 
                 <!-- Заголовок списка лекарств -->
-                <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" />
+                <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" HorizontalOptions="Center" />
 
                 <!-- Список лекарств -->
                 <ListView x:Name="medicinesListView" ItemsSource="{Binding Medicines}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <Grid>
+                                <Grid Padding="10">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />

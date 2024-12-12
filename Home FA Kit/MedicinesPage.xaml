@@ -63,8 +63,8 @@
                                     <!-- Срок годности -->
                                     <StackLayout Orientation="Horizontal" Spacing="5">
                                         <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="12" />
-                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:yyyy-MM-dd}'}" FontSize="12" />
-                                    </StackLayout>
+                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" />
+                                </StackLayout>
 
                                     <!-- Статус срока годности -->
                                     <Label x:Name="ExpirationStatusLabel" FontSize="12">

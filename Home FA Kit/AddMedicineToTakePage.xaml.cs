@@ -14,23 +14,58 @@ namespace Home_FA_Kit
         private ObservableCollection<DayOfWeek> _selectedDays = new ObservableCollection<DayOfWeek>();
         private TimeOnly _selectedTime;
 
+        // Словарь с локализованными названиями дней недели
+        private readonly Dictionary<string, Dictionary<DayOfWeek, string>> _localizedDayNames = new()
+    {
+        {
+            "ru", new Dictionary<DayOfWeek, string>
+            {
+                { DayOfWeek.Monday, "Понедельник" },
+                { DayOfWeek.Tuesday, "Вторник" },
+                { DayOfWeek.Wednesday, "Среда" },
+                { DayOfWeek.Thursday, "Четверг" },
+                { DayOfWeek.Friday, "Пятница" },
+                { DayOfWeek.Saturday, "Суббота" },
+                { DayOfWeek.Sunday, "Воскресенье" }
+            }
+        },
+        {
+            "en", new Dictionary<DayOfWeek, string>
+            {
+                { DayOfWeek.Monday, "Monday" },
+                { DayOfWeek.Tuesday, "Tuesday" },
+                { DayOfWeek.Wednesday, "Wednesday" },
+                { DayOfWeek.Thursday, "Thursday" },
+                { DayOfWeek.Friday, "Friday" },
+                { DayOfWeek.Saturday, "Saturday" },
+                { DayOfWeek.Sunday, "Sunday" }
+            }
+        }
+    };
+
         public AddMedicineToTakePage(PharmacyApp pharmacyApp, DateTime currentDate)
         {
             InitializeComponent();
             _pharmacyApp = pharmacyApp;
             _currentDate = currentDate;
 
+            // Заполняем Picker лекарств
             foreach (var medicine in _pharmacyApp.Pharmacies.SelectMany(p => p.Medicines))
             {
                 medicinePicker.Items.Add(medicine.Name);
             }
 
+            // Устанавливаем даты по умолчанию
             dateFromPicker.Date = _currentDate;
             dateToPicker.Date = _currentDate.AddMonths(1);
 
-            daysOfWeekListView.ItemsSource = Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>().Select(day => new DayOfWeekViewModel
+            // Получаем отсортированные дни недели
+            var daysOfWeek = _localizedDayNames[_pharmacyApp.AppSettings.Language].Keys.ToList(); // Получаем ключи (дни недели)
+
+            // Инициализируем daysOfWeekListView с русскими названиями
+            daysOfWeekListView.ItemsSource = daysOfWeek.Select(day => new DayOfWeekViewModel
             {
-                DayName = day.ToString(),
+                DayName = _localizedDayNames[_pharmacyApp.AppSettings.Language][day], // Используем русское название
                 Day = day
             }).ToList();
         }
@@ -47,6 +82,23 @@ namespace Home_FA_Kit
                 {
                     _selectedDays.Remove(dayViewModel.Day);
                 }
+            }
+        }
+
+        private void OnSelectAllDaysClicked(object sender, EventArgs e)
+        {
+            foreach (var item in daysOfWeekListView.ItemsSource)
+            {
+                if (item is DayOfWeekViewModel dayViewModel)
+                {
+                    dayViewModel.IsSelected = true;
+                }
+            }
+
+            _selectedDays.Clear();
+            foreach (var day in Enum.GetValues(typeof(DayOfWeek)).Cast<DayOfWeek>())
+            {
+                _selectedDays.Add(day);
             }
         }
 
@@ -73,12 +125,6 @@ namespace Home_FA_Kit
             if (_selectedDays.Count == 0)
             {
                 await DisplayAlert("Ошибка", "Выберите хотя бы один день недели", "OK");
-                return;
-            }
-
-            if (_selectedTime == default)
-            {
-                await DisplayAlert("Ошибка", "Выберите время приема", "OK");
                 return;
             }
 

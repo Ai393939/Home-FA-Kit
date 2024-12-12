@@ -22,7 +22,7 @@ namespace BusinessLayer
 
                 if (dates[i] >= DateFrom && (!DateTo.HasValue || dates[i] <= DateTo))
                 {
-                    if (Days.Count == 0 || Days.Contains(dates[i].DayOfWeek))
+                    if (Days.Contains(dates[i].DayOfWeek))
                     {
                         if (medicationEvent == null)
                         {

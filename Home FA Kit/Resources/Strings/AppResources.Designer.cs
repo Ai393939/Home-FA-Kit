@@ -196,7 +196,7 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Введите срок годности (yyyy-MM-dd).
+        ///   Ищет локализованную строку, похожую на Введите срок годности (dd.MM.yyyy).
         /// </summary>
         internal static string Entry_MedicineExpirationDate {
             get {
