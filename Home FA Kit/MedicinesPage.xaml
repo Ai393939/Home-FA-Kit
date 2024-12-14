@@ -7,10 +7,10 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:ExpirationDateConverter x:Key="ExpirationDateConverter" />
+            <local:ExpirationDateRemainingConverter x:Key="ExpirationDateRemainingConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <StackLayout Padding="7">
             <Grid>
@@ -18,10 +18,17 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" Grid.Column="0" />
-                <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="1" />
-                <Button Text="{x:Static resources:AppResources.Button_SortDirection}" Clicked="OnSortDirectionClicked" Grid.Column="2" />
+
+                <!-- Фильтр -->
+                <Label Text="{x:Static resources:AppResources.Label_Filter}" FontSize="14" Grid.Column="1" VerticalOptions="Center" />
+                <Picker x:Name="categoryPicker" Grid.Column="2" SelectedIndexChanged="OnCategorySelected" Margin="0,0,10,0" />
+
+                <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="3" />
+                <Button Text="{x:Static resources:AppResources.Button_SortDirection}" Clicked="OnSortDirectionClicked" Grid.Column="4" />
             </Grid>
 
             <!-- Поиск -->
@@ -45,37 +52,55 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Grid.Column="0" Padding="0,5">
-                                    <Label Text="{Binding Name}" FontSize="16" />
+                                    <Label Text="{Binding Name}" FontSize="18" />
 
                                     <!-- Количество и форма -->
                                     <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="12" />
-                                        <Label Text="{Binding Quantity}" FontSize="12" />
-                                        <Label Text="{Binding Form}" FontSize="12" />
-                                        <!-- Используем свойство Form -->
+                                        <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="14" />
+                                        <Label Text="{Binding Quantity}" FontSize="14" />
+                                        <Label Text="{Binding Form}" FontSize="14" />
                                     </StackLayout>
 
-                                    <!-- Стоимость -->
+                                    <!-- Активный ингредиент -->
                                     <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.Cost}" FontSize="12" />
-                                        <Label Text="{Binding Cost}" FontSize="12" />
+                                        <Label Text="{x:Static resources:AppResources.ActiveIngredient}" FontSize="14" />
+                                        <Label Text="{Binding ActiveIngredient}" FontSize="14" />
                                     </StackLayout>
 
                                     <!-- Срок годности -->
                                     <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="12" />
-                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" />
+                                        <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="14" />
+                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="14" />
                                     </StackLayout>
 
-                                    <!-- Статус срока годности -->
-                                    <Label x:Name="ExpirationStatusLabel" FontSize="12">
+                                    <!-- Оставшееся время до истечения срока годности -->
+                                    <Label x:Name="ExpirationRemainingLabel" FontSize="14" 
+                                           Text="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}">
                                         <Label.Triggers>
-                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateConverter}}" Value="True">
+                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="Expired">
                                                 <Setter Property="Text" Value="{x:Static resources:AppResources.Expired}" />
                                                 <Setter Property="BackgroundColor" Value="Red" />
                                             </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInOneWeek">
+                                                <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInOneWeek}" />
+                                                <Setter Property="BackgroundColor" Value="Orange" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInTwoWeeks">
+                                                <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInTwoWeeks}" />
+                                                <Setter Property="BackgroundColor" Value="Yellow" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="15">
+                                                <Setter Property="Text" Value="Value" />
+                                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                            </DataTrigger>
                                         </Label.Triggers>
                                     </Label>
+
+                                    <!-- Кнопки для изменения количества -->
+                                    <StackLayout Orientation="Horizontal" Spacing="5">
+                                        <Button Text="-" Clicked="OnDecreaseQuantityClicked" CommandParameter="{Binding}" />
+                                        <Button Text="+" Clicked="OnIncreaseQuantityClicked" CommandParameter="{Binding}" />
+                                    </StackLayout>
                                 </StackLayout>
                                 <Button Grid.Column="1" Text="x" BackgroundColor="Red" Clicked="OnEllipsisClicked" CommandParameter="{Binding}" />
                             </Grid>

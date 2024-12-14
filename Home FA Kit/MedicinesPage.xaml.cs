@@ -22,6 +22,11 @@ namespace Home_FA_Kit
             _pharmacyApp = pharmacyApp;
             medicinesListView.ItemsSource = _pharmacy.Medicines;
 
+            foreach (var category in _pharmacyApp.Categories)
+            {
+                categoryPicker.Items.Add(category.Name);
+            }
+
             BindingContext = this;
         }
 
@@ -30,6 +35,21 @@ namespace Home_FA_Kit
             base.OnAppearing();
 
             medicinesListView.ItemsSource = _pharmacy.Medicines;
+        }
+
+        private void OnCategorySelected(object sender, EventArgs e)
+        {
+            var selectedCategory = categoryPicker.SelectedItem as string;
+
+            if (categoryPicker.SelectedIndex == 0)
+            {
+                medicinesListView.ItemsSource = _pharmacy.Medicines;
+            }
+            else
+            {
+                var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Category.Name == selectedCategory));
+                medicinesListView.ItemsSource = filteredMedicines;
+            }
         }
 
         public void AddMedicine(Medicine medicine)
@@ -191,6 +211,27 @@ namespace Home_FA_Kit
         {
             searchEntry.Text = string.Empty;
             medicinesListView.ItemsSource = _pharmacy.Medicines;
+        }
+
+        private void OnDecreaseQuantityClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is Medicine medicine)
+            {
+                if (medicine.Quantity > 0)
+                {
+                    medicine.Quantity--;
+                    UpdateMedicine();
+                }
+            }
+        }
+
+        private void OnIncreaseQuantityClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is Medicine medicine)
+            {
+                medicine.Quantity++;
+                UpdateMedicine();
+            }
         }
     }
 }

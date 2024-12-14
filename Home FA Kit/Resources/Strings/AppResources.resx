@@ -234,8 +234,8 @@
   <data name="Label_PharmacyStatistics" xml:space="preserve">
     <value>Статистика по аптечкам</value>
   </data>
-  <data name="Cost" xml:space="preserve">
-    <value>Стоимость: </value>
+  <data name="ActiveIngredient" xml:space="preserve">
+    <value>Активный ингредиент:</value>
   </data>
   <data name="ExpirationDate" xml:space="preserve">
     <value>Срок годности: </value>
@@ -257,5 +257,14 @@
   </data>
   <data name="Label_SelectTime" xml:space="preserve">
     <value>Выберите время суток</value>
+  </data>
+  <data name="ExpiresInOneWeek" xml:space="preserve">
+    <value>Срок годности истекает в течение недели</value>
+  </data>
+  <data name="ExpiresInTwoWeeks" xml:space="preserve">
+    <value>Срок годности истекает в течение двух недель</value>
+  </data>
+  <data name="Label_Filter" xml:space="preserve">
+    <value>Фильтрация по категориям:</value>
   </data>
 </root>

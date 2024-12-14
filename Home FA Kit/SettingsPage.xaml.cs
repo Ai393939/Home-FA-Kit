@@ -80,23 +80,6 @@ namespace Home_FA_Kit
             }
         }
 
-        private async void OnPharmaciesClicked(object sender, EventArgs e)
-        {
-            await Navigation.PopAsync();
-        }
-
-        private async void OnMedicationClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new MedicationPage(_pharmacyApp));
-        }
-
-        private async void OnStatisticsClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new StatisticsPage(_pharmacyApp));
-        }
-
-        private async void OnSettingsClicked(object sender, EventArgs e) { }
-
         private void UpdateMedicineCategories()
         {
             foreach (var pharmacy in _pharmacyApp.Pharmacies)
@@ -120,5 +103,21 @@ namespace Home_FA_Kit
                 }
             }
         }
+        private async void OnPharmaciesClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync();
+        }
+
+        private async void OnMedicationClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new MedicationPage(_pharmacyApp));
+        }
+
+        private async void OnStatisticsClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new StatisticsPage(_pharmacyApp));
+        }
+
+        private async void OnSettingsClicked(object sender, EventArgs e) { }
     }
 }

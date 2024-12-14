@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls;
 using System.Collections.ObjectModel;
 using BusinessLayer;
+using DataLayer;
 
 namespace Home_FA_Kit
 {
@@ -21,44 +22,24 @@ namespace Home_FA_Kit
             _pharmacyApp.GetPharmacyStatistics();
         }
 
-        private async void OnPharmacyTapped(object sender, ItemTappedEventArgs e)
+        private async void OnDeleteMedicineClicked(object sender, EventArgs e)
         {
-            if (e.Item is PharmacyStatistics pharmacyStats)
+            var button = sender as Button;
+            var medicine = button.BindingContext as Medicine;
+
+            var result = await DisplayAlert("Подтверждение", "Хотите удалить это лекарство?", "Да", "Нет");
+            if (result)
             {
-                var action = await DisplayActionSheet("Статистика", "Отмена", null, "Общее количество лекарств", "Лекарства с истекшим сроком", "Категории");
+                var pharmacyStats = _pharmacyApp.PharmacyStatistics.PharmacyStats
+                    .FirstOrDefault(ps => ps.Pharmacy.Medicines.Contains(medicine));
 
-                switch (action)
+                if (pharmacyStats != null)
                 {
-                    case "Общее количество лекарств":
-                        await DisplayAlert("Статистика", $"Общее количество лекарств в аптечке '{pharmacyStats.Pharmacy.Name}': {pharmacyStats.TotalMedicines}", "OK");
-                        break;
-                    case "Лекарства с истекшим сроком":
-                        await Navigation.PushAsync(new ExpiredMedicinesPage(pharmacyStats.ExpiredMedicines, _pharmacyApp, pharmacyStats.Pharmacy, pharmacyStats));
-                        break;
-                    case "Категории":
-                        await DisplayAlert("Статистика", $"Количество категорий: {pharmacyStats.CategoryCount}\nКатегории в аптечке '{pharmacyStats.Pharmacy.Name}': {string.Join(", ", pharmacyStats.Categories)}", "OK");
-                        break;
-                }
-            }
-        }
+                    pharmacyStats.Pharmacy.RemoveMedicine(medicine);
+                    pharmacyStats.ExpiredMedicines.Remove(medicine);
 
-        private async void OnStatisticTapped(object sender, ItemTappedEventArgs e)
-        {
-            if (e.Item is string selectedStatistic)
-            {
-                var pharmacyStats = (PharmacyStatistics)((ListView)sender).BindingContext;
-
-                switch (selectedStatistic)
-                {
-                    case "Общее количество лекарств":
-                        await DisplayAlert("Статистика", $"Общее количество лекарств в аптечке '{pharmacyStats.Pharmacy.Name}': {pharmacyStats.TotalMedicines}", "OK");
-                        break;
-                    case "Лекарства с истекшим сроком":
-                        await Navigation.PushAsync(new ExpiredMedicinesPage(pharmacyStats.ExpiredMedicines, _pharmacyApp, pharmacyStats.Pharmacy, pharmacyStats));
-                        break;
-                    case "Категории":
-                        await DisplayAlert("Статистика", $"Количество категорий: {pharmacyStats.CategoryCount}\nКатегории в аптечке '{pharmacyStats.Pharmacy.Name}': {string.Join(", ", pharmacyStats.Categories)}", "OK");
-                        break;
+                    _pharmacyApp.GetPharmacyStatistics();
+                    PharmacyAppSaver.SaveToFile(_pharmacyApp, "pharmacyApp.json");
                 }
             }
         }

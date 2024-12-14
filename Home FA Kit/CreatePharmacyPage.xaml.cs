@@ -30,18 +30,5 @@ namespace Home_FA_Kit
                 await DisplayAlert("Ошибка", "Название аптечки не может быть пустым", "OK");
             }
         }
-
-        protected override async void OnDisappearing()
-        {
-            base.OnDisappearing();
-            if (!_isPharmacySaved && !string.IsNullOrEmpty(pharmacyNameEntry.Text))
-            {
-                var result = await DisplayAlert("Предупреждение", "Вы хотите удалить изменения?", "Да", "Нет");
-                if (!result)
-                {
-                    await Navigation.PushAsync(this);
-                }
-            }
-        }
     }
 }

@@ -53,58 +53,84 @@ namespace Home_FA_Kit
         private async void OnSaveMedicineClicked(object sender, EventArgs e)
         {
             var medicineName = medicineNameEntry.Text;
-            if (!string.IsNullOrEmpty(medicineName))
+            var expirationDateText = medicineExpirationDateEntry.Text;
+            var quantityText = medicineQuantityEntry.Text;
+            var selectedForm = medicineFormPicker.SelectedItem?.ToString();
+
+            // Проверка на пустое название
+            if (string.IsNullOrEmpty(medicineName))
             {
-                // Получаем индекс формы
-                var selectedForm = medicineFormPicker.SelectedItem?.ToString();
-                var formIndex = MedicineFormLocalization.GetFormIndex(selectedForm, _currentLanguage);
+                await DisplayAlert("Ошибка", "Название лекарства не может быть пустым", "OK");
+                return;
+            }
 
-                // Получаем выбранную категорию и подкатегорию
-                var selectedCategoryIndex = categoryPicker.SelectedIndex;
-                var selectedSubCategoryIndex = subCategoryPicker.SelectedIndex;
+            // Проверка на пустой срок годности или некорректный формат
+            if (string.IsNullOrEmpty(expirationDateText) || !DateTime.TryParse(expirationDateText, out _))
+            {
+                await DisplayAlert("Ошибка", "Срок годности должен быть указан и иметь правильный формат (например, 01.01.2023)", "OK");
+                return;
+            }
 
-                Category selectedCategory = null;
-                Subcategory selectedSubCategory = null;
+            // Проверка на пустое количество или некорректное значение
+            if (string.IsNullOrEmpty(quantityText) || !int.TryParse(quantityText, out _))
+            {
+                await DisplayAlert("Ошибка", "Количество должно быть указано и быть целым числом", "OK");
+                return;
+            }
 
-                if (selectedCategoryIndex != -1 && selectedSubCategoryIndex != -1)
+            // Проверка на пустую форму
+            if (string.IsNullOrEmpty(selectedForm))
+            {
+                await DisplayAlert("Ошибка", "Форма лекарства должна быть выбрана", "OK");
+                return;
+            }
+
+            // Получаем индекс формы
+            var formIndex = MedicineFormLocalization.GetFormIndex(selectedForm, _currentLanguage);
+
+            // Получаем выбранную категорию и подкатегорию
+            var selectedCategoryIndex = categoryPicker.SelectedIndex;
+            var selectedSubCategoryIndex = subCategoryPicker.SelectedIndex;
+
+            Category selectedCategory = null;
+            Subcategory selectedSubCategory = null;
+
+            if (selectedCategoryIndex != -1 && selectedSubCategoryIndex != -1)
+            {
+                selectedCategory = _categories[selectedCategoryIndex];
+                selectedSubCategory = selectedCategory.Subcategories[selectedSubCategoryIndex];
+            }
+
+            // Создаем новое лекарство
+            var newMedicine = new Medicine
+            {
+                Name = medicineName,
+                Description = medicineDescriptionEntry.Text,
+                Cost = int.TryParse(medicineCostEntry.Text, out int cost) ? cost : 0,
+                Quantity = int.TryParse(medicineQuantityEntry.Text, out int quantity) ? quantity : 0,
+                ExpirationDate = DateTime.TryParse(medicineExpirationDateEntry.Text, out DateTime expirationDate) ? expirationDate : DateTime.Now,
+                ActiveIngredient = medicineActiveIngredientEntry.Text,
+                Manufacturer = medicineManufacturerEntry.Text,
+                Country = medicineCountryEntry.Text,
+                PharmacologicalEffect = medicinePharmacologicalEffectEntry.Text,
+                FormIndex = formIndex, // Сохраняем индекс формы
+                Form = selectedForm, // Сохраняем локализованное значение формы
+                Note = medicineNoteEntry.Text,
+                Category = selectedCategory != null ? new Category
                 {
-                    selectedCategory = _categories[selectedCategoryIndex];
-                    selectedSubCategory = selectedCategory.Subcategories[selectedSubCategoryIndex];
-                }
-
-                var newMedicine = new Medicine
-                {
-                    Name = medicineName,
-                    Description = medicineDescriptionEntry.Text,
-                    Cost = int.TryParse(medicineCostEntry.Text, out int cost) ? cost : 0,
-                    Quantity = int.TryParse(medicineQuantityEntry.Text, out int quantity) ? quantity : 0,
-                    ExpirationDate = DateTime.TryParse(medicineExpirationDateEntry.Text, out DateTime expirationDate) ? expirationDate : DateTime.Now,
-                    ActiveIngredient = medicineActiveIngredientEntry.Text,
-                    Manufacturer = medicineManufacturerEntry.Text,
-                    Country = medicineCountryEntry.Text,
-                    PharmacologicalEffect = medicinePharmacologicalEffectEntry.Text,
-                    FormIndex = formIndex, // Сохраняем индекс формы
-                    Form = selectedForm, // Сохраняем локализованное значение формы
-                    Note = medicineNoteEntry.Text,
-                    Category = selectedCategory != null ? new Category
-                    {
-                        Id = selectedCategory.Id, // Сохраняем идентификатор категории
-                        Name = selectedCategory.Name,
-                        Subcategories = new List<Subcategory>
+                    Id = selectedCategory.Id, // Сохраняем идентификатор категории
+                    Name = selectedCategory.Name,
+                    Subcategories = new List<Subcategory>
                         {
-                            new Subcategory { Id = selectedSubCategory.Id, Name = selectedSubCategory.Name } // Сохраняем идентификатор подкатегории
+                            new Subcategory { Id = selectedSubCategory.Id, Name = selectedSubCategory.Name } 
                         }
                     } : null
                 };
 
-                _medicinesPage.AddMedicine(newMedicine);
-                _isMedicineSaved = true;
-                await Navigation.PopAsync();
-            }
-            else
-            {
-                await DisplayAlert("Ошибка", "Название лекарства не может быть пустым", "OK");
-            }
+            // Добавляем лекарство на страницу MedicinesPage
+            _medicinesPage.AddMedicine(newMedicine);
+            _isMedicineSaved = true;
+            await Navigation.PopAsync();
         }
 
         protected override async void OnDisappearing()

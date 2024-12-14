@@ -33,7 +33,10 @@ namespace Home_FA_Kit
         private void UpdateMedicinesList()
         {
             dateLabel.Text = _currentDate.ToString("dd.MM.yyyy");
-            medicinesListView.ItemsSource = _currentEvent?.Medicines;
+
+            var sortedMedicines = _currentEvent?.Medicines.OrderBy(m => m.Time).ToList();
+
+            medicinesListView.ItemsSource = sortedMedicines;
         }
 
         private void OnDateClicked(object sender, EventArgs e)
@@ -80,8 +83,12 @@ namespace Home_FA_Kit
                 }
 
                 _currentEvent.RemoveMedicine(selectedMedicine.Medicine);
-                if (_currentEvent.Medicines.Count == 0) _pharmacyApp.Calendar.Events.Remove(_currentEvent);
+
+                var existingMedicines = _pharmacyApp.GetAllMedicines();
+                _pharmacyApp.Calendar.CleanUpMedications(existingMedicines);
+
                 PharmacyAppSaver.SaveToFile(_pharmacyApp, "pharmacyApp.json");
+
                 UpdateMedicinesList();
             }
         }

@@ -61,6 +61,15 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Активный ингредиент:.
+        /// </summary>
+        internal static string ActiveIngredient {
+            get {
+                return ResourceManager.GetString("ActiveIngredient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Добавить лекарство.
         /// </summary>
         internal static string AddMedicine {
@@ -138,15 +147,6 @@ namespace Home_FA_Kit.Resources.Strings {
         internal static string Button_SortDirection {
             get {
                 return ResourceManager.GetString("Button_SortDirection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Стоимость: .
-        /// </summary>
-        internal static string Cost {
-            get {
-                return ResourceManager.GetString("Cost", resourceCulture);
             }
         }
         
@@ -295,6 +295,24 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Срок годности истекает в течение недели.
+        /// </summary>
+        internal static string ExpiresInOneWeek {
+            get {
+                return ResourceManager.GetString("ExpiresInOneWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Срок годности истекает в течение двух недель.
+        /// </summary>
+        internal static string ExpiresInTwoWeeks {
+            get {
+                return ResourceManager.GetString("ExpiresInTwoWeeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Ввод нового лекарства.
         /// </summary>
         internal static string Label_CreateNewMedicine {
@@ -318,6 +336,15 @@ namespace Home_FA_Kit.Resources.Strings {
         internal static string Label_EditPharmacy {
             get {
                 return ResourceManager.GetString("Label_EditPharmacy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Фильтрация по категориям:.
+        /// </summary>
+        internal static string Label_Filter {
+            get {
+                return ResourceManager.GetString("Label_Filter", resourceCulture);
             }
         }
         

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActiveIngredient" xml:space="preserve">
+    <value>Active ingredient:</value>
+  </data>
   <data name="AddMedicine" xml:space="preserve">
     <value>Add medicine</value>
   </data>
@@ -143,9 +146,6 @@
   </data>
   <data name="Button_SortDirection" xml:space="preserve">
     <value>↑↓</value>
-  </data>
-  <data name="Cost" xml:space="preserve">
-    <value>Cost: </value>
   </data>
   <data name="EditMedicine" xml:space="preserve">
     <value>Edit medicine</value>
@@ -195,6 +195,12 @@
   <data name="ExpiredMedicines" xml:space="preserve">
     <value>Expired medicines</value>
   </data>
+  <data name="ExpiresInOneWeek" xml:space="preserve">
+    <value>The expiration date expires within a week</value>
+  </data>
+  <data name="ExpiresInTwoWeeks" xml:space="preserve">
+    <value>The expiration date expires within two weeks</value>
+  </data>
   <data name="Label_CreateNewMedicine" xml:space="preserve">
     <value>Enter a new medicine</value>
   </data>
@@ -203,6 +209,9 @@
   </data>
   <data name="Label_EditPharmacy" xml:space="preserve">
     <value>Edit first aid kit</value>
+  </data>
+  <data name="Label_Filter" xml:space="preserve">
+    <value>Category filter:</value>
   </data>
   <data name="Label_Medicines" xml:space="preserve">
     <value>Medicines</value>

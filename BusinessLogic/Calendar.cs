@@ -36,5 +36,38 @@ namespace BusinessLayer
 
             return null;
         }
+
+        public void CleanUpMedications(List<Medicine> existingMedicines)
+        {
+            var eventsToRemove = new List<MedicationEvent>();
+
+            foreach (var medicationEvent in Events)
+            {
+                var statusesToRemove = new List<MedicineTakenStatus>();
+
+                foreach (var medicineTakenStatus in medicationEvent.Medicines)
+                {
+                    if (!existingMedicines.Contains(medicineTakenStatus.Medicine))
+                    {
+                        statusesToRemove.Add(medicineTakenStatus);
+                    }
+                }
+
+                foreach (var statusToRemove in statusesToRemove)
+                {
+                    medicationEvent.Medicines.Remove(statusToRemove);
+                }
+
+                if (medicationEvent.Medicines.Count == 0)
+                {
+                    eventsToRemove.Add(medicationEvent);
+                }
+            }
+
+            foreach (var eventToRemove in eventsToRemove)
+            {
+                Events.Remove(eventToRemove);
+            }
+        }
     }
 }
