@@ -11,6 +11,7 @@ namespace BusinessLayer
         private Settings _appSettings = new Settings();
         private Statistics _pharmacyStatistics;
         private Calendar _calendar = new Calendar();
+        private List<Category> _categories;
 
         public ObservableCollection<FirstAidKit> Pharmacies
         {
@@ -51,6 +52,16 @@ namespace BusinessLayer
             {
                 _calendar = value;
                 OnPropertyChanged(nameof(Calendar));
+            }
+        }
+
+        public List<Category> Categories
+        {
+            get => _categories;
+            set
+            {
+                _categories = value;
+                OnPropertyChanged(nameof(Categories));
             }
         }
 

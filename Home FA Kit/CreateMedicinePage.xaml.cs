@@ -1,8 +1,8 @@
 using System;
-using Microsoft.Maui.Controls;
 using System.Collections.Generic;
 using BusinessLayer;
 using DataLayer;
+using Microsoft.Maui.Controls;
 
 namespace Home_FA_Kit
 {
@@ -12,24 +12,28 @@ namespace Home_FA_Kit
         private PharmacyApp _pharmacyApp;
         private bool _isMedicineSaved = false;
         private List<Category> _categories;
+        private string _currentLanguage;
+        private List<string> _forms;
 
-        public CreateMedicinePage(MedicinesPage medicinesPage, PharmacyApp pharmacyApp)
+        public CreateMedicinePage(MedicinesPage medicinesPage, PharmacyApp pharmacyApp, string currentLanguage, List<Category> categories)
         {
             InitializeComponent();
             _medicinesPage = medicinesPage;
             _pharmacyApp = pharmacyApp;
+            _currentLanguage = currentLanguage;
+            _categories = categories; // Принимаем категории из MedicinesPage
 
-            if (_pharmacyApp.AppSettings.Language == "ru")
-            {
-                _categories = CategoryLoader.LoadCategories("categories.json");
-            } else
-            {
-                _categories = CategoryLoader.LoadCategories("categoriesEn.json");
-            }
-
+            // Загрузка категорий
             foreach (var category in _categories)
             {
                 categoryPicker.Items.Add(category.Name);
+            }
+
+            // Загрузка форм в Picker с локализацией
+            _forms = MedicineFormLocalization.GetAllForms(_currentLanguage);
+            foreach (var form in _forms)
+            {
+                medicineFormPicker.Items.Add(form);
             }
         }
 
@@ -51,6 +55,23 @@ namespace Home_FA_Kit
             var medicineName = medicineNameEntry.Text;
             if (!string.IsNullOrEmpty(medicineName))
             {
+                // Получаем индекс формы
+                var selectedForm = medicineFormPicker.SelectedItem?.ToString();
+                var formIndex = MedicineFormLocalization.GetFormIndex(selectedForm, _currentLanguage);
+
+                // Получаем выбранную категорию и подкатегорию
+                var selectedCategoryIndex = categoryPicker.SelectedIndex;
+                var selectedSubCategoryIndex = subCategoryPicker.SelectedIndex;
+
+                Category selectedCategory = null;
+                Subcategory selectedSubCategory = null;
+
+                if (selectedCategoryIndex != -1 && selectedSubCategoryIndex != -1)
+                {
+                    selectedCategory = _categories[selectedCategoryIndex];
+                    selectedSubCategory = selectedCategory.Subcategories[selectedSubCategoryIndex];
+                }
+
                 var newMedicine = new Medicine
                 {
                     Name = medicineName,
@@ -62,16 +83,18 @@ namespace Home_FA_Kit
                     Manufacturer = medicineManufacturerEntry.Text,
                     Country = medicineCountryEntry.Text,
                     PharmacologicalEffect = medicinePharmacologicalEffectEntry.Text,
-                    Form = medicineFormEntry.Text,
+                    FormIndex = formIndex, // Сохраняем индекс формы
+                    Form = selectedForm, // Сохраняем локализованное значение формы
                     Note = medicineNoteEntry.Text,
-                    Category = new Category
+                    Category = selectedCategory != null ? new Category
                     {
-                        Name = categoryPicker.SelectedItem.ToString(),
+                        Id = selectedCategory.Id, // Сохраняем идентификатор категории
+                        Name = selectedCategory.Name,
                         Subcategories = new List<Subcategory>
                         {
-                            new Subcategory { Name = subCategoryPicker.SelectedItem.ToString() }
+                            new Subcategory { Id = selectedSubCategory.Id, Name = selectedSubCategory.Name } // Сохраняем идентификатор подкатегории
                         }
-                    }
+                    } : null
                 };
 
                 _medicinesPage.AddMedicine(newMedicine);

@@ -4,12 +4,13 @@
              xmlns:local="clr-namespace:Home_FA_Kit"
              x:Class="Home_FA_Kit.MedicinesPage"
              xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <local:ExpirationDateConverter x:Key="ExpirationDateConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    
     <ContentPage.Content>
         <StackLayout Padding="7">
             <Grid>
@@ -31,7 +32,6 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Entry x:Name="searchEntry" Placeholder="{x:Static resources:AppResources.Search}" Grid.Column="0" TextChanged="OnSearchTextChanged" />
-                <Button Text="{x:Static resources:AppResources.Search}" Clicked="OnSearchClicked" Grid.Column="1" />
                 <Button Text="{x:Static resources:AppResources.Button_ResetFilter}" Clicked="OnResetFilterClicked" Grid.Column="2" />
             </Grid>
 
@@ -47,11 +47,12 @@
                                 <StackLayout Grid.Column="0" Padding="0,5">
                                     <Label Text="{Binding Name}" FontSize="16" />
 
-                                    <!-- Количество -->
+                                    <!-- Количество и форма -->
                                     <StackLayout Orientation="Horizontal" Spacing="5">
                                         <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="12" />
-                                        
                                         <Label Text="{Binding Quantity}" FontSize="12" />
+                                        <Label Text="{Binding Form}" FontSize="12" />
+                                        <!-- Используем свойство Form -->
                                     </StackLayout>
 
                                     <!-- Стоимость -->
@@ -64,7 +65,7 @@
                                     <StackLayout Orientation="Horizontal" Spacing="5">
                                         <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="12" />
                                         <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="12" />
-                                </StackLayout>
+                                    </StackLayout>
 
                                     <!-- Статус срока годности -->
                                     <Label x:Name="ExpirationStatusLabel" FontSize="12">

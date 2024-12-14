@@ -6,9 +6,16 @@
     x:Class="Home_FA_Kit.AppShell"
     Shell.FlyoutBehavior="Disabled"
     Title="Home_FA_Kit">
-    
+
+    <Shell.TitleView>
+        <BoxView BackgroundColor="#6242B7" 
+             HeightRequest="47" 
+             VerticalOptions="Start" 
+             HorizontalOptions="Fill" />
+    </Shell.TitleView>
+
     <ShellContent
-        Title="Home"
+        Title="Домашние аптечки"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

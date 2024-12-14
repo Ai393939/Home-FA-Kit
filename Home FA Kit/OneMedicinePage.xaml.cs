@@ -1,9 +1,9 @@
 using System;
-using Microsoft.Maui.Controls;
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLayer;
 using DataLayer;
+using Microsoft.Maui.Controls;
 
 namespace Home_FA_Kit
 {
@@ -14,27 +14,27 @@ namespace Home_FA_Kit
         private Medicine _originalMedicine;
         private bool _isMedicineSaved = false;
         private List<Category> _categories;
+        private List<string> _forms;
+        private string _currentLanguage;
 
-        public OneMedicinePage(PharmacyApp pharmacyApp, MedicinesPage medicinesPage, Medicine originalMedicine)
+        public OneMedicinePage(PharmacyApp pharmacyApp, MedicinesPage medicinesPage, Medicine originalMedicine, string currentLanguage, List<Category> categories)
         {
             InitializeComponent();
             _medicinesPage = medicinesPage;
             _originalMedicine = originalMedicine;
-
             _pharmacyApp = pharmacyApp;
-
-            if (_pharmacyApp.AppSettings.Language == "ru")
-            {
-                _categories = CategoryLoader.LoadCategories("categories.json");
-            }
-            else
-            {
-                _categories = CategoryLoader.LoadCategories("categoriesEn.json");
-            }
+            _currentLanguage = currentLanguage;
+            _categories = categories;
 
             foreach (var category in _categories)
             {
                 categoryPicker.Items.Add(category.Name);
+            }
+
+            _forms = MedicineFormLocalization.GetAllForms(_currentLanguage);
+            foreach (var form in _forms)
+            {
+                medicineFormPicker.Items.Add(form);
             }
 
             medicineNameEntry.Text = originalMedicine.Name;
@@ -46,8 +46,9 @@ namespace Home_FA_Kit
             medicineManufacturerEntry.Text = originalMedicine.Manufacturer;
             medicineCountryEntry.Text = originalMedicine.Country;
             medicinePharmacologicalEffectEntry.Text = originalMedicine.PharmacologicalEffect;
-            medicineFormEntry.Text = originalMedicine.Form;
             medicineNoteEntry.Text = originalMedicine.Note;
+
+            medicineFormPicker.SelectedItem = originalMedicine.Form;
 
             categoryPicker.SelectedItem = originalMedicine.Category?.Name;
             OnCategorySelected(null, null);
@@ -73,6 +74,9 @@ namespace Home_FA_Kit
             var newMedicineName = medicineNameEntry.Text;
             if (!string.IsNullOrEmpty(newMedicineName))
             {
+                var selectedForm = medicineFormPicker.SelectedItem?.ToString();
+                var formIndex = MedicineFormLocalization.GetFormIndex(selectedForm, _currentLanguage);
+
                 _originalMedicine.Name = newMedicineName;
                 _originalMedicine.Description = medicineDescriptionEntry.Text;
                 _originalMedicine.Cost = int.Parse(medicineCostEntry.Text);
@@ -82,27 +86,26 @@ namespace Home_FA_Kit
                 _originalMedicine.Manufacturer = medicineManufacturerEntry.Text;
                 _originalMedicine.Country = medicineCountryEntry.Text;
                 _originalMedicine.PharmacologicalEffect = medicinePharmacologicalEffectEntry.Text;
-                _originalMedicine.Form = medicineFormEntry.Text;
+                _originalMedicine.FormIndex = formIndex;
+                _originalMedicine.Form = selectedForm;
                 _originalMedicine.Note = medicineNoteEntry.Text;
 
                 var selectedCategoryIndex = categoryPicker.SelectedIndex;
                 var selectedSubCategoryIndex = subCategoryPicker.SelectedIndex;
 
-                if (selectedCategoryIndex > 0 && selectedSubCategoryIndex < 0)
-                {
-                    await DisplayAlert("Ошибка", "Выберите подкатегорию", "OK");
-                    return;
-                }
-
-                if (selectedCategoryIndex > 0 && selectedSubCategoryIndex >= 0)
+                if (selectedCategoryIndex != -1 && selectedSubCategoryIndex != -1)
                 {
                     var selectedCategory = _categories[selectedCategoryIndex];
                     var selectedSubCategory = selectedCategory.Subcategories[selectedSubCategoryIndex];
 
                     _originalMedicine.Category = new Category
                     {
+                        Id = selectedCategory.Id,
                         Name = selectedCategory.Name,
-                        Subcategories = new List<Subcategory> { selectedSubCategory }
+                        Subcategories = new List<Subcategory>
+                        {
+                            new Subcategory { Id = selectedSubCategory.Id, Name = selectedSubCategory.Name }
+                        }
                     };
                 }
                 else

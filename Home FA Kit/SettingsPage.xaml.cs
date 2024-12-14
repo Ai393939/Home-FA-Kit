@@ -20,7 +20,6 @@ namespace Home_FA_Kit
         private void LoadSettings()
         {
             LanguagePicker.SelectedIndex = _settings.Language == "ru" ? 0 : 1;
-
             ThemePicker.SelectedIndex = _settings.Theme == "Light" ? 0 : 1;
         }
 
@@ -28,6 +27,11 @@ namespace Home_FA_Kit
         {
             var selectedLanguage = LanguagePicker.SelectedIndex == 0 ? "ru" : "en";
             _settings.Language = selectedLanguage;
+
+            _pharmacyApp.Categories = CategoryLoader.LoadCategories(selectedLanguage);
+
+            LocalizeMedicineForms(selectedLanguage);
+            UpdateMedicineCategories();
         }
 
         private void OnThemeSelected(object sender, EventArgs e)
@@ -48,7 +52,7 @@ namespace Home_FA_Kit
             {
                 DisplayAlert("Сохранено", "Настройки сохранены\n(если вы обновили язык, пожалуйста, перезапустите приложение)", "OK");
             }
-            
+
             await Navigation.PopAsync();
             ApplyTheme(_settings.Theme);
         }
@@ -64,6 +68,18 @@ namespace Home_FA_Kit
                 Application.Current.UserAppTheme = AppTheme.Dark;
             }
         }
+
+        private void LocalizeMedicineForms(string culture)
+        {
+            foreach (var pharmacy in _pharmacyApp.Pharmacies)
+            {
+                foreach (var medicine in pharmacy.Medicines)
+                {
+                    medicine.Form = MedicineFormLocalization.GetLocalizedForm(medicine.FormIndex, culture);
+                }
+            }
+        }
+
         private async void OnPharmaciesClicked(object sender, EventArgs e)
         {
             await Navigation.PopAsync();
@@ -80,5 +96,29 @@ namespace Home_FA_Kit
         }
 
         private async void OnSettingsClicked(object sender, EventArgs e) { }
+
+        private void UpdateMedicineCategories()
+        {
+            foreach (var pharmacy in _pharmacyApp.Pharmacies)
+            {
+                foreach (var medicine in pharmacy.Medicines)
+                {
+                    var category = _pharmacyApp.Categories.FirstOrDefault(c => c.Id == medicine.Category?.Id);
+                    if (category != null)
+                    {
+                        medicine.Category.Name = category.Name;
+
+                        if (medicine.Category.Subcategories != null && medicine.Category.Subcategories.Any())
+                        {
+                            var subcategory = category.Subcategories.FirstOrDefault(s => s.Id == medicine.Category.Subcategories[0].Id);
+                            if (subcategory != null)
+                            {
+                                medicine.Category.Subcategories[0].Name = subcategory.Name;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

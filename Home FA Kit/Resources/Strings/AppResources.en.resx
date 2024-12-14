@@ -163,10 +163,10 @@
     <value>Enter description</value>
   </data>
   <data name="Entry_MedicineExpirationDate" xml:space="preserve">
-    <value>Enter expiration date</value>
+    <value>Enter expiration date (dd.MM.yyyy)</value>
   </data>
   <data name="Entry_MedicineForm" xml:space="preserve">
-    <value>Enter form (dd.MM.yyyy)</value>
+    <value>Enter form </value>
   </data>
   <data name="Entry_MedicineManufacturer" xml:space="preserve">
     <value>Enter manufacturer</value>

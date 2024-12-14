@@ -4,7 +4,6 @@ using System.Linq;
 using BusinessLayer;
 using Microsoft.Maui.Controls;
 using DataLayer;
-using System.Globalization;
 
 namespace Home_FA_Kit
 {
@@ -26,6 +25,13 @@ namespace Home_FA_Kit
             BindingContext = this;
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            medicinesListView.ItemsSource = _pharmacy.Medicines;
+        }
+
         public void AddMedicine(Medicine medicine)
         {
             _pharmacy.AddMedicine(medicine);
@@ -44,17 +50,17 @@ namespace Home_FA_Kit
             medicinesListView.ItemsSource = _pharmacy.Medicines;
         }
 
+        private async void OnCreateMedicineClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new CreateMedicinePage(this, _pharmacyApp, _pharmacyApp.AppSettings.Language, _pharmacyApp.Categories));
+        }
+
         private async void OnMedicineTapped(object sender, ItemTappedEventArgs e)
         {
             if (e.Item is Medicine selectedMedicine)
             {
-                await Navigation.PushAsync(new OneMedicinePage(_pharmacyApp, this, selectedMedicine));
+                await Navigation.PushAsync(new OneMedicinePage(_pharmacyApp, this, selectedMedicine, _pharmacyApp.AppSettings.Language, _pharmacyApp.Categories));
             }
-        }
-
-        private async void OnCreateMedicineClicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new CreateMedicinePage(this, _pharmacyApp));
         }
 
         private async void OnEllipsisClicked(object sender, EventArgs e)
@@ -164,23 +170,6 @@ namespace Home_FA_Kit
             }
         }
 
-        private void OnSearchClicked(object sender, EventArgs e)
-        {
-            var searchText = searchEntry.Text;
-
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                medicinesListView.ItemsSource = _pharmacy.Medicines;
-                return;
-            }
-
-            searchText = searchText.ToLower();
-
-            var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.ToString().ToLower().Contains(searchText)));
-
-            medicinesListView.ItemsSource = filteredMedicines;
-        }
-
         private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
         {
             var searchText = e.NewTextValue;
@@ -202,11 +191,6 @@ namespace Home_FA_Kit
         {
             searchEntry.Text = string.Empty;
             medicinesListView.ItemsSource = _pharmacy.Medicines;
-        }
-
-        private Color GetExpirationDateColor(DateTime expirationDate)
-        {
-            return expirationDate < DateTime.Now ? Colors.Red : Colors.Transparent;
         }
     }
 }

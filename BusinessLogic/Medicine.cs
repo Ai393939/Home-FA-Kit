@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -7,6 +6,9 @@ namespace BusinessLayer
 {
     public class Medicine : INotifyPropertyChanged
     {
+        private static int _nextId = 1;
+
+        public int MedicineId { get; private set; }
         private string name;
         private string description;
         private int cost;
@@ -16,7 +18,8 @@ namespace BusinessLayer
         private string manufacturer;
         private string country;
         private string pharmacologicalEffect;
-        private string form;
+        private int formIndex;
+        private string form; // Добавляем переменную для хранения локализованного значения формы
         private string note;
         private Category category;
 
@@ -72,6 +75,12 @@ namespace BusinessLayer
             set { pharmacologicalEffect = value; OnPropertyChanged(); }
         }
 
+        public int FormIndex
+        {
+            get { return formIndex; }
+            set { formIndex = value; OnPropertyChanged(); }
+        }
+
         public string Form
         {
             get { return form; }
@@ -96,10 +105,14 @@ namespace BusinessLayer
             set { quantity = value; OnPropertyChanged(); }
         }
 
-        public Medicine() { }
+        public Medicine()
+        {
+            MedicineId = _nextId++;
+        }
 
         public Medicine(string name, string description, int cost, DateTime expirationDate, string activeIngredient, string manufacturer, string country,
-            string pharmacologicalEffect, string form, string note, Category category, int quantity)
+            string pharmacologicalEffect, int formIndex, string form, string note, Category category, int quantity)
+            : this()
         {
             Name = name;
             Description = description;
@@ -109,6 +122,7 @@ namespace BusinessLayer
             Manufacturer = manufacturer;
             Country = country;
             PharmacologicalEffect = pharmacologicalEffect;
+            FormIndex = formIndex;
             Form = form;
             Note = note;
             Category = category;
@@ -118,7 +132,7 @@ namespace BusinessLayer
         public override string ToString()
         {
             return String.Format($"{Name} {Description} {Cost} {ExpirationDate} {ActiveIngredient} {Manufacturer} {Country} " +
-                $"{PharmacologicalEffect} {Form} {Note} {Category.Name} {Category.Subcategories[0].Name} {Quantity} ");
+                $"{PharmacologicalEffect} {FormIndex} {Form} {Note} {Category.Name} {Category.Subcategories[0].Name} {Quantity} ");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

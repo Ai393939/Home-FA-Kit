@@ -17,10 +17,11 @@ namespace Home_FA_Kit
         {
             _pharmacyApp = PharmacyAppLoader.LoadFromFile("pharmacyApp.json") ?? new PharmacyApp();
             if (_pharmacyApp.AppSettings.Language == "en") AppResources.Culture = new CultureInfo("en");
+            _pharmacyApp.Categories = CategoryLoader.LoadCategories(_pharmacyApp.AppSettings.Language);
             if (_pharmacyApp.AppSettings.Theme == "Dark") Application.Current.UserAppTheme = AppTheme.Dark;
 
             InitializeComponent();
-            
+
             pharmaciesListView.ItemsSource = _pharmacyApp.Pharmacies;
             BindingContext = _pharmacyApp;
         }
@@ -55,24 +56,22 @@ namespace Home_FA_Kit
             await Navigation.PushAsync(new CreatePharmacyPage(this));
         }
 
-        private async void OnEllipsisClicked(object sender, EventArgs e)
+        private async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is FirstAidKit selectedPharmacy)
             {
-                var action = await DisplayActionSheet("Выберите действие", "Отмена", null, "Редактировать", "Удалить");
+                await Navigation.PushAsync(new EditPharmacyPage(this, selectedPharmacy));
+            }
+        }
 
-                switch (action)
+        private async void OnDeleteClicked(object sender, EventArgs e)
+        {
+            if (sender is Button button && button.CommandParameter is FirstAidKit selectedPharmacy)
+            {
+                var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить эту аптечку?", "Да", "Нет");
+                if (result)
                 {
-                    case "Редактировать":
-                        await Navigation.PushAsync(new EditPharmacyPage(this, selectedPharmacy));
-                        break;
-                    case "Удалить":
-                        var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить эту аптечку?", "Да", "Нет");
-                        if (result)
-                        {
-                            RemovePharmacy(selectedPharmacy);
-                        }
-                        break;
+                    RemovePharmacy(selectedPharmacy);
                 }
             }
         }
