@@ -4,8 +4,7 @@ namespace DataLayer
 {
     public static class MedicineFormLocalization
     {
-        // Список русских значений форм
-        private static readonly List<string> _russianForms = new List<string>
+        private static List<string> _russianForms = new List<string>
         {
             "шт",
             "уп",
@@ -18,8 +17,7 @@ namespace DataLayer
             "капс"
         };
 
-        // Список английских значений форм
-        private static readonly List<string> _englishForms = new List<string>
+        private static List<string> _englishForms = new List<string>
         {
             "pcs",
             "pack",

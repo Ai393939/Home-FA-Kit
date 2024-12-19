@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Maui.Controls;
 using BusinessLayer;
 using DataLayer;
+using Home_FA_Kit.Resources.Strings;
 
 namespace Home_FA_Kit
 {
@@ -14,7 +15,6 @@ namespace Home_FA_Kit
         private ObservableCollection<DayOfWeek> _selectedDays = new ObservableCollection<DayOfWeek>();
         private TimeOnly _selectedTime;
 
-        // Словарь с локализованными названиями дней недели
         private readonly Dictionary<string, Dictionary<DayOfWeek, string>> _localizedDayNames = new()
     {
         {
@@ -49,25 +49,48 @@ namespace Home_FA_Kit
             _pharmacyApp = pharmacyApp;
             _currentDate = currentDate;
 
-            // Заполняем Picker лекарств
             foreach (var medicine in _pharmacyApp.Pharmacies.SelectMany(p => p.Medicines))
             {
                 medicinePicker.Items.Add(medicine.Name);
             }
 
-            // Устанавливаем даты по умолчанию
             dateFromPicker.Date = _currentDate;
             dateToPicker.Date = _currentDate.AddMonths(1);
 
-            // Получаем отсортированные дни недели
-            var daysOfWeek = _localizedDayNames[_pharmacyApp.AppSettings.Language].Keys.ToList(); // Получаем ключи (дни недели)
+            var daysOfWeek = _localizedDayNames[_pharmacyApp.AppSettings.Language].Keys.ToList();
 
-            // Инициализируем daysOfWeekListView с русскими названиями
             daysOfWeekListView.ItemsSource = daysOfWeek.Select(day => new DayOfWeekViewModel
             {
-                DayName = _localizedDayNames[_pharmacyApp.AppSettings.Language][day], // Используем русское название
+                DayName = _localizedDayNames[_pharmacyApp.AppSettings.Language][day],
                 Day = day
             }).ToList();
+        }
+
+        private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchText = e.NewTextValue.ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                medicinePicker.Items.Clear();
+                foreach (var medicine in _pharmacyApp.Pharmacies.SelectMany(p => p.Medicines))
+                {
+                    medicinePicker.Items.Add(medicine.Name);
+                }
+            }
+            else
+            {
+                var filteredMedicines = _pharmacyApp.Pharmacies.SelectMany(p => p.Medicines)
+                    .Where(m => m.Name.ToLower().Contains(searchText))
+                    .Select(m => m.Name)
+                    .ToList();
+
+                medicinePicker.Items.Clear();
+                foreach (var medicineName in filteredMedicines)
+                {
+                    medicinePicker.Items.Add(medicineName);
+                }
+            }
         }
 
         private void OnDayCheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -118,13 +141,27 @@ namespace Home_FA_Kit
 
             if (string.IsNullOrEmpty(selectedMedicineName))
             {
-                await DisplayAlert("Ошибка", "Выберите лекарство", "OK");
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+                {
+                    await DisplayAlert("Error", "Please select a medicine", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ошибка", "Выберите лекарство", "OK");
+                }
                 return;
             }
 
             if (_selectedDays.Count == 0)
             {
-                await DisplayAlert("Ошибка", "Выберите хотя бы один день недели", "OK");
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+                {
+                    await DisplayAlert("Error", "Please select at least one day of the week", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ошибка", "Выберите хотя бы один день недели", "OK");
+                }
                 return;
             }
 

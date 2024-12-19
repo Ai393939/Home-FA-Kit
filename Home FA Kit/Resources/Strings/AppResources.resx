@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Pharmacies" xml:space="preserve">
-    <value>Аптечки</value>
+    <value>Мои аптечки</value>
   </data>
   <data name="Button_Sort" xml:space="preserve">
     <value>Сортировать</value>
@@ -199,7 +199,7 @@
     <value>Редактирование аптечки</value>
   </data>
   <data name="ExpiredMedicines" xml:space="preserve">
-    <value>Просроченные лекарства</value>
+    <value>Просроченные лекарства:</value>
   </data>
   <data name="Label_Medicines" xml:space="preserve">
     <value>Лекарства</value>
@@ -266,5 +266,44 @@
   </data>
   <data name="Label_Filter" xml:space="preserve">
     <value>Фильтрация по категориям:</value>
+  </data>
+  <data name="AmountCategories" xml:space="preserve">
+    <value>Количество категорий:</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Категории:</value>
+  </data>
+  <data name="ChooseAllDays" xml:space="preserve">
+    <value>Выбрать все дни</value>
+  </data>
+  <data name="ChooseDayOfTheWeek" xml:space="preserve">
+    <value>Выберите день недели:</value>
+  </data>
+  <data name="ChooseEndDate" xml:space="preserve">
+    <value>Выберите конечную дату:</value>
+  </data>
+  <data name="ChooseMedicine" xml:space="preserve">
+    <value>Выберите лекарство:</value>
+  </data>
+  <data name="ChooseStartDate" xml:space="preserve">
+    <value>Выберите начальную дату:</value>
+  </data>
+  <data name="ChooseTime" xml:space="preserve">
+    <value>Выберите время:</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Содержимое аптечки</value>
+  </data>
+  <data name="MedicineSearch" xml:space="preserve">
+    <value>Поиск лекарства:</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>Принято</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Время приёма:</value>
+  </data>
+  <data name="TotalMedicines" xml:space="preserve">
+    <value>Общее количество лекарств:</value>
   </data>
 </root>

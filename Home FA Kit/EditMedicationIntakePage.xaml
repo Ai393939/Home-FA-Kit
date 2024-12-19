@@ -1,0 +1,28 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.EditMedicationIntakePage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
+
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <!-- Название лекарства -->
+            <Label x:Name="medicineNameLabel" FontSize="18" FontAttributes="Bold" 
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+
+            <!-- Время приема -->
+            <Label Text="{x:Static resources:AppResources.Time}" FontSize="16" 
+                   TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+            <Frame Padding="5" Margin="0,5,0,10" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <TimePicker x:Name="timePicker" Format="HH:mm" />
+            </Frame>
+
+            <!-- Кнопка сохранения -->
+            <Button Text="{x:Static resources:AppResources.Button_Save}" Clicked="OnSaveClicked" 
+                    BackgroundColor="{AppThemeBinding Light=#6687BB, Dark=#4A90E2}" TextColor="White"
+                    BorderColor="{AppThemeBinding Light=#CCCCCC, Dark=#377A98}" 
+                    BorderWidth="2" CornerRadius="10" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

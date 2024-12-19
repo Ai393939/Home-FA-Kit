@@ -44,21 +44,6 @@ namespace BusinessLayer
             medicines.Remove(medicine);
         }
 
-        public List<Medicine> FindMedicinesByCategory(Category category)
-        {
-            return medicines.Where(m => m.Category == category).ToList();
-        }
-
-        public List<Medicine> FindMedicinesByExpirationDate(DateTime date)
-        {
-            return medicines.Where(m => m.ExpirationDate <= date).ToList();
-        }
-
-        public List<Medicine> FindMedicinesBySubCategory(Category subCategory)
-        {
-            return medicines.Where(m => m.Category == subCategory).ToList();
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

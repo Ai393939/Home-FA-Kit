@@ -8,7 +8,7 @@
     Title="Home_FA_Kit">
 
     <Shell.TitleView>
-        <BoxView BackgroundColor="#6242B7" 
+        <BoxView BackgroundColor="{AppThemeBinding Light=#6242B7, Dark=#140951}" 
              HeightRequest="47" 
              VerticalOptions="Start" 
              HorizontalOptions="Fill" />

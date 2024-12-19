@@ -8,10 +8,9 @@ namespace BusinessLayer
     {
         private static int _nextId = 1;
 
-        public int MedicineId { get; private set; }
         private string name;
         private string description;
-        private int cost;
+        private float cost;
         private int quantity;
         private DateTime expirationDate;
         private string activeIngredient;
@@ -19,10 +18,11 @@ namespace BusinessLayer
         private string country;
         private string pharmacologicalEffect;
         private int formIndex;
-        private string form; // Добавляем переменную для хранения локализованного значения формы
+        private string form;
         private string note;
         private Category category;
 
+        public int MedicineId { get; private set; }
         public string Name
         {
             get { return name; }
@@ -39,7 +39,7 @@ namespace BusinessLayer
             set { description = value; OnPropertyChanged(); }
         }
 
-        public int Cost
+        public float Cost
         {
             get { return cost; }
             set { cost = value; OnPropertyChanged(); }
@@ -110,7 +110,7 @@ namespace BusinessLayer
             MedicineId = _nextId++;
         }
 
-        public Medicine(string name, string description, int cost, DateTime expirationDate, string activeIngredient, string manufacturer, string country,
+        public Medicine(string name, string description, float cost, DateTime expirationDate, string activeIngredient, string manufacturer, string country,
             string pharmacologicalEffect, int formIndex, string form, string note, Category category, int quantity)
             : this()
         {
@@ -131,8 +131,13 @@ namespace BusinessLayer
 
         public override string ToString()
         {
+            if (Category != null)
+            {
+                return String.Format($"{Name} {Description} {Cost} {ExpirationDate} {ActiveIngredient} {Manufacturer} {Country} " +
+                    $"{PharmacologicalEffect} {FormIndex} {Form} {Note} {Category.Name} {Category.Subcategories[0].Name} {Quantity} ");
+            }
             return String.Format($"{Name} {Description} {Cost} {ExpirationDate} {ActiveIngredient} {Manufacturer} {Country} " +
-                $"{PharmacologicalEffect} {FormIndex} {Form} {Note} {Category.Name} {Category.Subcategories[0].Name} {Quantity} ");
+                    $"{PharmacologicalEffect} {FormIndex} {Form} {Note} {Quantity} ");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

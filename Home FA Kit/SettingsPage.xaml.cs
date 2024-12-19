@@ -110,7 +110,7 @@ namespace Home_FA_Kit
 
         private async void OnMedicationClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MedicationPage(_pharmacyApp));
+            await Navigation.PushAsync(new MedicationIntakePage(_pharmacyApp));
         }
 
         private async void OnStatisticsClicked(object sender, EventArgs e)

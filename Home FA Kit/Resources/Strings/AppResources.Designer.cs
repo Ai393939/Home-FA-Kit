@@ -79,6 +79,15 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Количество категорий:.
+        /// </summary>
+        internal static string AmountCategories {
+            get {
+                return ResourceManager.GetString("AmountCategories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Добавить.
         /// </summary>
         internal static string Button_Add {
@@ -147,6 +156,78 @@ namespace Home_FA_Kit.Resources.Strings {
         internal static string Button_SortDirection {
             get {
                 return ResourceManager.GetString("Button_SortDirection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Категории:.
+        /// </summary>
+        internal static string Categories {
+            get {
+                return ResourceManager.GetString("Categories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выбрать все дни.
+        /// </summary>
+        internal static string ChooseAllDays {
+            get {
+                return ResourceManager.GetString("ChooseAllDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите день недели:.
+        /// </summary>
+        internal static string ChooseDayOfTheWeek {
+            get {
+                return ResourceManager.GetString("ChooseDayOfTheWeek", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите конечную дату:.
+        /// </summary>
+        internal static string ChooseEndDate {
+            get {
+                return ResourceManager.GetString("ChooseEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите лекарство:.
+        /// </summary>
+        internal static string ChooseMedicine {
+            get {
+                return ResourceManager.GetString("ChooseMedicine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите начальную дату:.
+        /// </summary>
+        internal static string ChooseStartDate {
+            get {
+                return ResourceManager.GetString("ChooseStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выберите время:.
+        /// </summary>
+        internal static string ChooseTime {
+            get {
+                return ResourceManager.GetString("ChooseTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Содержимое аптечки.
+        /// </summary>
+        internal static string Contents {
+            get {
+                return ResourceManager.GetString("Contents", resourceCulture);
             }
         }
         
@@ -286,7 +367,7 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Просроченные лекарства.
+        ///   Ищет локализованную строку, похожую на Просроченные лекарства:.
         /// </summary>
         internal static string ExpiredMedicines {
             get {
@@ -448,7 +529,16 @@ namespace Home_FA_Kit.Resources.Strings {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Аптечки.
+        ///   Ищет локализованную строку, похожую на Поиск лекарства:.
+        /// </summary>
+        internal static string MedicineSearch {
+            get {
+                return ResourceManager.GetString("MedicineSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Мои аптечки.
         /// </summary>
         internal static string Pharmacies {
             get {
@@ -507,6 +597,33 @@ namespace Home_FA_Kit.Resources.Strings {
         internal static string Statistics {
             get {
                 return ResourceManager.GetString("Statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Принято.
+        /// </summary>
+        internal static string Taken {
+            get {
+                return ResourceManager.GetString("Taken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Время приёма:.
+        /// </summary>
+        internal static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Общее количество лекарств:.
+        /// </summary>
+        internal static string TotalMedicines {
+            get {
+                return ResourceManager.GetString("TotalMedicines", resourceCulture);
             }
         }
     }

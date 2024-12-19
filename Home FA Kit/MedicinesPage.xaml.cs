@@ -4,6 +4,7 @@ using System.Linq;
 using BusinessLayer;
 using Microsoft.Maui.Controls;
 using DataLayer;
+using Home_FA_Kit.Resources.Strings;
 
 namespace Home_FA_Kit
 {
@@ -30,6 +31,8 @@ namespace Home_FA_Kit
             BindingContext = this;
         }
 
+        public FirstAidKit Pharmacy => _pharmacy;
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
@@ -47,7 +50,8 @@ namespace Home_FA_Kit
             }
             else
             {
-                var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines.Where(m => m.Category.Name == selectedCategory));
+                var filteredMedicines = new ObservableCollection<Medicine>(_pharmacy.Medicines
+                    .Where(m => m.Category != null && m.Category.Name == selectedCategory));
                 medicinesListView.ItemsSource = filteredMedicines;
             }
         }
@@ -79,7 +83,7 @@ namespace Home_FA_Kit
         {
             if (e.Item is Medicine selectedMedicine)
             {
-                await Navigation.PushAsync(new OneMedicinePage(_pharmacyApp, this, selectedMedicine, _pharmacyApp.AppSettings.Language, _pharmacyApp.Categories));
+                await Navigation.PushAsync(new EditMedicinePage(_pharmacyApp, this, selectedMedicine, _pharmacyApp.AppSettings.Language, _pharmacyApp.Categories));
             }
         }
 
@@ -87,19 +91,39 @@ namespace Home_FA_Kit
         {
             if (sender is Button button && button.CommandParameter is Medicine selectedMedicine)
             {
-                var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить это лекарство?", "Да", "Нет");
-                if (result)
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
                 {
-                    RemoveMedicine(selectedMedicine);
+                    var result = await DisplayAlert("Confirmation", "Are you sure you want to delete this medicine?", "Yes", "No");
+                    if (result)
+                    {
+                        RemoveMedicine(selectedMedicine);
+                    }
+                }
+                else
+                {
+                    var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить это лекарство?", "Да", "Нет");
+                    if (result)
+                    {
+                        RemoveMedicine(selectedMedicine);
+                    }
                 }
             }
         }
 
         private async void OnSortClicked(object sender, EventArgs e)
         {
-            var sortType = await DisplayActionSheet("Выберите тип сортировки", "Отмена", null, "По названию", "По цене", "По дате истечения", "По активному веществу", "По производителю", "По стране", "По категории");
+            string sortType = null;
 
-            if (sortType == "Отмена")
+            if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+            {
+                sortType = await DisplayActionSheet("Select sorting type", "Cancel", null, "By name", "By price", "By expiration date", "By active ingredient", "By manufacturer", "By country", "By category");
+            }
+            else
+            {
+                sortType = await DisplayActionSheet("Выберите тип сортировки", "Отмена", null, "По названию", "По цене", "По дате истечения", "По активному веществу", "По производителю", "По стране", "По категории");
+            }
+
+            if (sortType == "Cancel")
                 return;
 
             _currentSortType = sortType;
@@ -108,24 +132,31 @@ namespace Home_FA_Kit
 
             switch (sortType)
             {
+                case "By name":
                 case "По названию":
                     comparer = new CompareMedicineByName();
                     break;
+                case "By price":
                 case "По цене":
                     comparer = new CompareMedicineByCost();
                     break;
+                case "By expiration date":
                 case "По дате истечения":
                     comparer = new CompareMedicineByExpirationDate();
                     break;
+                case "By active ingredient":
                 case "По активному веществу":
                     comparer = new CompareMedicineByActiveIngredient();
                     break;
+                case "By manufacturer":
                 case "По производителю":
                     comparer = new CompareMedicineByManufacturer();
                     break;
+                case "By country":
                 case "По стране":
                     comparer = new CompareMedicineByCountry();
                     break;
+                case "By category":
                 case "По категории":
                     comparer = new CompareMedicineByCategory();
                     break;
@@ -146,32 +177,53 @@ namespace Home_FA_Kit
             }
         }
 
-        private void OnSortDirectionClicked(object sender, EventArgs e)
+        private async void OnSortDirectionClicked(object sender, EventArgs e)
         {
-            _isAscendingSort = !_isAscendingSort;
+            string sortDirection = null;
+
+            if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+            {
+                sortDirection = await DisplayActionSheet("Select sorting direction", "Cancel", null, "Ascending", "Descending");
+            }
+            else
+            {
+                sortDirection = await DisplayActionSheet("Выберите направление сортировки", "Отмена", null, "По возрастанию", "По убыванию");
+            }
+
+            if (sortDirection == "Cancel")
+                return;
+
+            _isAscendingSort = sortDirection == "Ascending" || sortDirection == "По возрастанию";
 
             IComparer<Medicine> comparer = null;
 
             switch (_currentSortType)
             {
+                case "By name":
                 case "По названию":
                     comparer = new CompareMedicineByName();
                     break;
+                case "By price":
                 case "По цене":
                     comparer = new CompareMedicineByCost();
                     break;
+                case "By expiration date":
                 case "По дате истечения":
                     comparer = new CompareMedicineByExpirationDate();
                     break;
+                case "By active ingredient":
                 case "По активному веществу":
                     comparer = new CompareMedicineByActiveIngredient();
                     break;
+                case "By manufacturer":
                 case "По производителю":
                     comparer = new CompareMedicineByManufacturer();
                     break;
+                case "By country":
                 case "По стране":
                     comparer = new CompareMedicineByCountry();
                     break;
+                case "By category":
                 case "По категории":
                     comparer = new CompareMedicineByCategory();
                     break;
@@ -207,30 +259,72 @@ namespace Home_FA_Kit
             medicinesListView.ItemsSource = filteredMedicines;
         }
 
-        private void OnResetFilterClicked(object sender, EventArgs e)
+        private async void OnResetFilterClicked(object sender, EventArgs e)
         {
-            searchEntry.Text = string.Empty;
-            medicinesListView.ItemsSource = _pharmacy.Medicines;
+            string resetConfirmation = null;
+
+            if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+            {
+                resetConfirmation = await DisplayActionSheet("Reset filter", "Cancel", null, "Reset");
+            }
+            else
+            {
+                resetConfirmation = await DisplayActionSheet("Сбросить фильтр", "Отмена", null, "Сбросить");
+            }
+
+            if (resetConfirmation == "Reset" || resetConfirmation == "Сбросить")
+            {
+                searchEntry.Text = string.Empty;
+                medicinesListView.ItemsSource = _pharmacy.Medicines;
+            }
         }
 
-        private void OnDecreaseQuantityClicked(object sender, EventArgs e)
+        private async void OnDecreaseQuantityClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Medicine medicine)
             {
                 if (medicine.Quantity > 0)
                 {
-                    medicine.Quantity--;
-                    UpdateMedicine();
+                    string confirmation = null;
+
+                    if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+                    {
+                        confirmation = await DisplayActionSheet("Decrease quantity", "Cancel", null, "Decrease");
+                    }
+                    else
+                    {
+                        confirmation = await DisplayActionSheet("Уменьшить количество", "Отмена", null, "Уменьшить");
+                    }
+
+                    if (confirmation == "Decrease" || confirmation == "Уменьшить")
+                    {
+                        medicine.Quantity--;
+                        UpdateMedicine();
+                    }
                 }
             }
         }
 
-        private void OnIncreaseQuantityClicked(object sender, EventArgs e)
+        private async void OnIncreaseQuantityClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is Medicine medicine)
             {
-                medicine.Quantity++;
-                UpdateMedicine();
+                string confirmation = null;
+
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+                {
+                    confirmation = await DisplayActionSheet("Increase quantity", "Cancel", null, "Increase");
+                }
+                else
+                {
+                    confirmation = await DisplayActionSheet("Увеличить количество", "Отмена", null, "Увеличить");
+                }
+
+                if (confirmation == "Increase" || confirmation == "Увеличить")
+                {
+                    medicine.Quantity++;
+                    UpdateMedicine();
+                }
             }
         }
     }

@@ -13,102 +13,167 @@
 
     <ContentPage.Content>
         <StackLayout Padding="7">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Label Text="{x:Static resources:AppResources.Label_Medicines}" FontSize="18" Grid.Column="0" />
+            <!-- Заголовок и кнопки фильтрации/сортировки -->
+            <Frame Padding="10" Margin="0,0,0,10" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#333333, Dark=#152069}" 
+                   BackgroundColor="{AppThemeBinding Light=#7256BE, Dark=#152069}">
+                <StackLayout Orientation="Vertical" Spacing="5" HorizontalOptions="Center">
+                    <!-- Заголовок "Содержимое аптечки" -->
+                    <Label Text="{x:Static resources:AppResources.Contents}" FontSize="18" VerticalOptions="Center" TextColor="White" HorizontalOptions="Center" />
 
-                <!-- Фильтр -->
-                <Label Text="{x:Static resources:AppResources.Label_Filter}" FontSize="14" Grid.Column="1" VerticalOptions="Center" />
-                <Picker x:Name="categoryPicker" Grid.Column="2" SelectedIndexChanged="OnCategorySelected" Margin="0,0,10,0" />
+                    <!-- Название аптечки как заголовок -->
+                    <Label Text="{Binding Pharmacy.Name}" FontSize="28" VerticalOptions="Center" TextColor="White" HorizontalOptions="Center" FontAttributes="Bold" />
+                </StackLayout>
+            </Frame>
 
-                <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="3" />
-                <Button Text="{x:Static resources:AppResources.Button_SortDirection}" Clicked="OnSortDirectionClicked" Grid.Column="4" />
-            </Grid>
+            <!-- Поиск и кнопки фильтрации/сортировки -->
+            <Frame Padding="10" Margin="0,0,0,10" HasShadow="True" CornerRadius="10" 
+               BorderColor="{AppThemeBinding Light=#333333, Dark=#152069}" 
+               BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Поиск -->
+                    <Frame Grid.Column="0" Padding="5" Margin="0,0,10,0" HasShadow="True" CornerRadius="10" 
+                       BackgroundColor="{AppThemeBinding Light=#D3C3F2, Dark=#244A80}" 
+                       BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}">
+                        <Entry x:Name="searchEntry" Placeholder="{x:Static resources:AppResources.Search}" 
+                           PlaceholderColor="{AppThemeBinding Light=Black, Dark=White}" 
+                           TextColor="{AppThemeBinding Light=Black, Dark=White}" TextChanged="OnSearchTextChanged" />
+                    </Frame>
 
-            <!-- Поиск -->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Entry x:Name="searchEntry" Placeholder="{x:Static resources:AppResources.Search}" Grid.Column="0" TextChanged="OnSearchTextChanged" />
-                <Button Text="{x:Static resources:AppResources.Button_ResetFilter}" Clicked="OnResetFilterClicked" Grid.Column="2" />
-            </Grid>
+                    <!-- Фильтр -->
+                    <Label Text="{x:Static resources:AppResources.Label_Filter}" FontSize="14" Grid.Column="1" VerticalOptions="Center" 
+                        Margin="10,0,4,0" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    <Frame Grid.Column="2" Padding="5" Margin="0,0,10,0" HasShadow="True" CornerRadius="10" 
+                       BackgroundColor="{AppThemeBinding Light=#C49FED, Dark=#0096C6}" 
+                       BorderColor="{AppThemeBinding Light=#A683DF, Dark=#06BAF3}">
+                        <Picker x:Name="categoryPicker" Grid.Column="2" SelectedIndexChanged="OnCategorySelected" 
+                            TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                    </Frame>
 
-            <ListView x:Name="medicinesListView" ItemTapped="OnMedicineTapped">
+                    <!-- Кнопки сортировки -->
+                    <Button Text="{x:Static resources:AppResources.Button_Sort}" Clicked="OnSortClicked" Grid.Column="3" 
+                        BackgroundColor="{AppThemeBinding Light=#7B51BC, Dark=#244A80}" 
+                        BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" BorderWidth="2" CornerRadius="10" 
+                        TextColor="White" />
+                    <Button Text="{x:Static resources:AppResources.Button_SortDirection}" Clicked="OnSortDirectionClicked" Grid.Column="4" 
+                        BackgroundColor="{AppThemeBinding Light=#9E89DA, Dark=#0096C6}" Margin="3,0,0,0"
+                        BorderColor="{AppThemeBinding Light=#B39DDB, Dark=#06BAF3}" BorderWidth="2" CornerRadius="10" 
+                        TextColor="White" />
+                </Grid>
+            </Frame>
+            
+            <!-- Список лекарств -->
+            <ListView x:Name="medicinesListView" ItemTapped="OnMedicineTapped" HasUnevenRows="True" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackLayout Grid.Column="0" Padding="0,5">
-                                    <Label Text="{Binding Name}" FontSize="18" />
+                            <Frame Padding="10" Margin="0,0,0,10" HasShadow="True" CornerRadius="10" 
+                                   BorderColor="{AppThemeBinding Light=#333333, Dark=#122396}" 
+                                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#304B95}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout Grid.Column="0" Padding="0,5">
+                                        <Label Text="{Binding Name}" FontSize="18" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
 
-                                    <!-- Количество и форма -->
-                                    <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="14" />
-                                        <Label Text="{Binding Quantity}" FontSize="14" />
-                                        <Label Text="{Binding Form}" FontSize="14" />
+                                        <!-- Количество и форма -->
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="{x:Static resources:AppResources.Quantity}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                            <Label Text="{Binding Quantity}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                            <Label Text="{Binding Form}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                        </StackLayout>
+
+                                        <!-- Активный ингредиент -->
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="{x:Static resources:AppResources.ActiveIngredient}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                            <Label Text="{Binding ActiveIngredient}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                        </StackLayout>
+
+                                        <!-- Срок годности -->
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                            <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
+                                        </StackLayout>
+
+                                        <!-- Оставшееся время до истечения срока годности -->
+                                        <Frame WidthRequest="200" Padding="10" BackgroundColor="Transparent" HasShadow="True" 
+                                               HorizontalOptions="Start" >
+                                            <Frame.Triggers>
+                                                <!-- Триггеры для Frame, чтобы изменять его фон -->
+                                                <DataTrigger TargetType="Frame" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="Expired">
+                                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=Red, Dark=#B32020}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Frame" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInOneWeek">
+                                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=Orange, Dark=#D76D09}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Frame" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInTwoWeeks">
+                                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light=Yellow, Dark=#BFC322}" />
+                                                </DataTrigger>
+                                                <DataTrigger TargetType="Frame" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="15">
+                                                    <Setter Property="BackgroundColor" Value="Transparent" />
+                                                </DataTrigger>
+                                            </Frame.Triggers>
+
+                                            <Label x:Name="ExpirationRemainingLabel" FontSize="14" 
+                                                Text="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" 
+                                                TextColor="{AppThemeBinding Light=Black, Dark=White}">
+                                                <Label.Triggers>
+                                                    <!-- Триггеры для Label, чтобы изменять текст -->
+                                                    <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="Expired">
+                                                        <Setter Property="Text" Value="{x:Static resources:AppResources.Expired}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInOneWeek">
+                                                        <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInOneWeek}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInTwoWeeks">
+                                                        <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInTwoWeeks}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="15">
+                                                        <Setter Property="Text" Value="Value" />
+                                                    </DataTrigger>
+                                                </Label.Triggers>
+                                            </Label>
+                                        </Frame>
+
+                                        <!-- Кнопки для изменения количества -->
+                                        <StackLayout Orientation="Horizontal" Spacing="5">
+                                            <Button Text="-" Clicked="OnDecreaseQuantityClicked" CommandParameter="{Binding}" 
+                                                    BackgroundColor="{AppThemeBinding Light=#B39DDB, Dark=#0096C6}" 
+                                                    TextColor="White" />
+                                            <Button Text="+" Clicked="OnIncreaseQuantityClicked" CommandParameter="{Binding}" 
+                                                    BackgroundColor="{AppThemeBinding Light=#B39DDB, Dark=#0096C6}" 
+                                                    TextColor="White" />
+                                        </StackLayout>
                                     </StackLayout>
-
-                                    <!-- Активный ингредиент -->
-                                    <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.ActiveIngredient}" FontSize="14" />
-                                        <Label Text="{Binding ActiveIngredient}" FontSize="14" />
-                                    </StackLayout>
-
-                                    <!-- Срок годности -->
-                                    <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Label Text="{x:Static resources:AppResources.ExpirationDate}" FontSize="14" />
-                                        <Label Text="{Binding ExpirationDate, StringFormat='{0:dd.MM.yyyy}'}" FontSize="14" />
-                                    </StackLayout>
-
-                                    <!-- Оставшееся время до истечения срока годности -->
-                                    <Label x:Name="ExpirationRemainingLabel" FontSize="14" 
-                                           Text="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}">
-                                        <Label.Triggers>
-                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="Expired">
-                                                <Setter Property="Text" Value="{x:Static resources:AppResources.Expired}" />
-                                                <Setter Property="BackgroundColor" Value="Red" />
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInOneWeek">
-                                                <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInOneWeek}" />
-                                                <Setter Property="BackgroundColor" Value="Orange" />
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="ExpiresInTwoWeeks">
-                                                <Setter Property="Text" Value="{x:Static resources:AppResources.ExpiresInTwoWeeks}" />
-                                                <Setter Property="BackgroundColor" Value="Yellow" />
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="Label" Binding="{Binding ExpirationDate, Converter={StaticResource ExpirationDateRemainingConverter}}" Value="15">
-                                                <Setter Property="Text" Value="Value" />
-                                                <Setter Property="BackgroundColor" Value="Transparent" />
-                                            </DataTrigger>
-                                        </Label.Triggers>
-                                    </Label>
-
-                                    <!-- Кнопки для изменения количества -->
-                                    <StackLayout Orientation="Horizontal" Spacing="5">
-                                        <Button Text="-" Clicked="OnDecreaseQuantityClicked" CommandParameter="{Binding}" />
-                                        <Button Text="+" Clicked="OnIncreaseQuantityClicked" CommandParameter="{Binding}" />
-                                    </StackLayout>
-                                </StackLayout>
-                                <Button Grid.Column="1" Text="x" BackgroundColor="Red" Clicked="OnEllipsisClicked" CommandParameter="{Binding}" />
-                            </Grid>
+                                    <Button Grid.Column="1" Text="❌" BackgroundColor="{AppThemeBinding Light=#B39DDB, Dark=#0096C6}" 
+                                            Clicked="OnEllipsisClicked" HeightRequest="60"
+                                            CommandParameter="{Binding}" BorderWidth="2" BorderColor="{AppThemeBinding Light=#A683DF, Dark=#244A80}" 
+                                            FontSize="15" VerticalOptions="Start" TextColor="White" />
+                                </Grid>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Text="{x:Static resources:AppResources.Button_CreateNewMedicine}" Clicked="OnCreateMedicineClicked" />
+
+            <!-- Кнопка создания нового лекарства -->
+            <Frame Padding="10" Margin="0,10,0,0" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#333333, Dark=#152069}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <Button Text="{x:Static resources:AppResources.Button_CreateNewMedicine}" Clicked="OnCreateMedicineClicked" 
+                        BackgroundColor="{AppThemeBinding Light=#6687BB, Dark=#4A90E2}" 
+                        HorizontalOptions="FillAndExpand" TextColor="White" />
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

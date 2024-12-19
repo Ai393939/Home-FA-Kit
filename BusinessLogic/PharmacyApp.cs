@@ -97,7 +97,6 @@ namespace BusinessLayer
         {
             var allMedicines = new List<Medicine>();
 
-            // Проходим по всем аптечкам и собираем все лекарства
             foreach (var pharmacy in Pharmacies)
             {
                 allMedicines.AddRange(pharmacy.Medicines);

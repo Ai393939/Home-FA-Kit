@@ -123,6 +123,9 @@
   <data name="AddMedicine" xml:space="preserve">
     <value>Add medicine</value>
   </data>
+  <data name="AmountCategories" xml:space="preserve">
+    <value>Amount of categories:</value>
+  </data>
   <data name="Button_Add" xml:space="preserve">
     <value>Add</value>
   </data>
@@ -146,6 +149,30 @@
   </data>
   <data name="Button_SortDirection" xml:space="preserve">
     <value>↑↓</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories:</value>
+  </data>
+  <data name="ChooseAllDays" xml:space="preserve">
+    <value>Choose all days</value>
+  </data>
+  <data name="ChooseDayOfTheWeek" xml:space="preserve">
+    <value>Choose the day of the week:</value>
+  </data>
+  <data name="ChooseEndDate" xml:space="preserve">
+    <value>Choose the end date:</value>
+  </data>
+  <data name="ChooseMedicine" xml:space="preserve">
+    <value>Choose the medicine:</value>
+  </data>
+  <data name="ChooseStartDate" xml:space="preserve">
+    <value>Choose the start date:</value>
+  </data>
+  <data name="ChooseTime" xml:space="preserve">
+    <value>Choose time:</value>
+  </data>
+  <data name="Contents" xml:space="preserve">
+    <value>Contents of the first aid kit</value>
   </data>
   <data name="EditMedicine" xml:space="preserve">
     <value>Edit medicine</value>
@@ -193,7 +220,7 @@
     <value>Expired</value>
   </data>
   <data name="ExpiredMedicines" xml:space="preserve">
-    <value>Expired medicines</value>
+    <value>Expired medicines:</value>
   </data>
   <data name="ExpiresInOneWeek" xml:space="preserve">
     <value>The expiration date expires within a week</value>
@@ -246,8 +273,11 @@
   <data name="Medication" xml:space="preserve">
     <value>Taking medications</value>
   </data>
+  <data name="MedicineSearch" xml:space="preserve">
+    <value>Search medicine:</value>
+  </data>
   <data name="Pharmacies" xml:space="preserve">
-    <value>First aid kits</value>
+    <value>My first aid kits</value>
   </data>
   <data name="Picker_Category" xml:space="preserve">
     <value>Pick category</value>
@@ -266,5 +296,14 @@
   </data>
   <data name="Statistics" xml:space="preserve">
     <value>Statistics</value>
+  </data>
+  <data name="Taken" xml:space="preserve">
+    <value>Taken</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Intake time:</value>
+  </data>
+  <data name="TotalMedicines" xml:space="preserve">
+    <value>Total amount of medicines:</value>
   </data>
 </root>

@@ -1,0 +1,27 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Home_FA_Kit.CreateFirstAidKitPage"
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid BackgroundColor="{AppThemeBinding Light=#7256BE, Dark=#152069}" VerticalOptions="Start" HeightRequest="100">
+                <Label Text="{x:Static resources:AppResources.Label_CreateNewPharmacy}" 
+                       TextColor="White" 
+                       FontSize="24" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center" />
+            </Grid>
+
+            <StackLayout Padding="7" Margin="0,150,0,0">
+                <Entry x:Name="pharmacyNameEntry" FontSize="20" Placeholder="{x:Static resources:AppResources.Entry_PharmacyName}" />
+
+                <Button Text="{x:Static resources:AppResources.Button_Save}" FontSize="20" Clicked="OnSavePharmacyClicked" TextColor="White"
+                        BackgroundColor="{AppThemeBinding Light=#6687BB, Dark=#4A90E2}" 
+                        BorderColor="{AppThemeBinding Light=#CCCCCC, Dark=#377A98}" 
+                        BorderWidth="2" CornerRadius="10" />
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -53,14 +53,14 @@ namespace Home_FA_Kit
 
         private async void OnCreatePharmacyClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new CreatePharmacyPage(this));
+            await Navigation.PushAsync(new CreateFirstAidKitPage(this));
         }
 
         private async void OnEditClicked(object sender, EventArgs e)
         {
             if (sender is Button button && button.CommandParameter is FirstAidKit selectedPharmacy)
             {
-                await Navigation.PushAsync(new EditPharmacyPage(this, selectedPharmacy));
+                await Navigation.PushAsync(new EditFirstAidKitPage(this, selectedPharmacy));
             }
         }
 
@@ -68,10 +68,21 @@ namespace Home_FA_Kit
         {
             if (sender is Button button && button.CommandParameter is FirstAidKit selectedPharmacy)
             {
-                var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить эту аптечку?", "Да", "Нет");
-                if (result)
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
                 {
-                    RemovePharmacy(selectedPharmacy);
+                    var result = await DisplayAlert("Confirmation", "Are you sure you want to delete this pharmacy?", "Yes", "No");
+                    if (result)
+                    {
+                        RemovePharmacy(selectedPharmacy);
+                    }
+                }
+                else
+                {
+                    var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить эту аптечку?", "Да", "Нет");
+                    if (result)
+                    {
+                        RemovePharmacy(selectedPharmacy);
+                    }
                 }
             }
         }
@@ -94,7 +105,7 @@ namespace Home_FA_Kit
 
         private async void OnMedicationClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new MedicationPage(_pharmacyApp));
+            await Navigation.PushAsync(new MedicationIntakePage(_pharmacyApp));
         }
 
         private async void OnStatisticsClicked(object sender, EventArgs e)

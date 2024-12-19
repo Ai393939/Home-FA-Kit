@@ -27,7 +27,7 @@ namespace BusinessLayer
             }
         }
 
-        public MedicationEvent FindEvent(DateTime Date)
+        public MedicationEvent? FindEvent(DateTime Date)
         {
             foreach (MedicationEvent medicationEvent in Events)
             {

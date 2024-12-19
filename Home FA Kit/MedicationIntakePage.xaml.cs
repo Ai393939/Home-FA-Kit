@@ -3,16 +3,17 @@ using System.Linq;
 using Microsoft.Maui.Controls;
 using BusinessLayer;
 using DataLayer;
+using Home_FA_Kit.Resources.Strings;
 
 namespace Home_FA_Kit
 {
-    public partial class MedicationPage : ContentPage
+    public partial class MedicationIntakePage : ContentPage
     {
         private PharmacyApp _pharmacyApp;
         private MedicationEvent _currentEvent;
         private DateTime _currentDate;
 
-        public MedicationPage(PharmacyApp pharmacyApp)
+        public MedicationIntakePage(PharmacyApp pharmacyApp)
         {
             InitializeComponent();
             _pharmacyApp = pharmacyApp;
@@ -67,7 +68,7 @@ namespace Home_FA_Kit
         {
             if (sender is Button button && button.CommandParameter is MedicineTakenStatus selectedMedicine)
             {
-                await Navigation.PushAsync(new EditTakingMedicationPage(_pharmacyApp, _currentEvent, selectedMedicine));
+                await Navigation.PushAsync(new EditMedicationIntakePage(_pharmacyApp, _currentEvent, selectedMedicine));
                 UpdateMedicinesList();
             }
         }
@@ -76,10 +77,21 @@ namespace Home_FA_Kit
         {
             if (sender is Button button && button.CommandParameter is MedicineTakenStatus selectedMedicine)
             {
-                var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить это лекарство?", "Да", "Нет");
-                if (!result)
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
                 {
-                    return;
+                    var result = await DisplayAlert("Confirmation", "Are you sure you want to delete this medicine?", "Yes", "No");
+                    if (!result)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    var result = await DisplayAlert("Подтверждение", "Вы уверены, что хотите удалить это лекарство?", "Да", "Нет");
+                    if (!result)
+                    {
+                        return;
+                    }
                 }
 
                 _currentEvent.RemoveMedicine(selectedMedicine.Medicine);

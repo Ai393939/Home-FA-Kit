@@ -1,15 +1,16 @@
 using System;
 using Microsoft.Maui.Controls;
 using BusinessLayer;
+using Home_FA_Kit.Resources.Strings;
 
 namespace Home_FA_Kit
 {
-    public partial class CreatePharmacyPage : ContentPage
+    public partial class CreateFirstAidKitPage : ContentPage
     {
         private MainPage _mainPage;
         private bool _isPharmacySaved = false;
 
-        public CreatePharmacyPage(MainPage mainPage)
+        public CreateFirstAidKitPage(MainPage mainPage)
         {
             InitializeComponent();
             _mainPage = mainPage;
@@ -27,7 +28,14 @@ namespace Home_FA_Kit
             }
             else
             {
-                await DisplayAlert("Ошибка", "Название аптечки не может быть пустым", "OK");
+                if (AppResources.Culture != null && AppResources.Culture.Name == "en")
+                {
+                    await DisplayAlert("Error", "Pharmacy name cannot be empty", "OK");
+                }
+                else
+                {
+                    await DisplayAlert("Ошибка", "Название аптечки не может быть пустым", "OK");
+                }
             }
         }
     }

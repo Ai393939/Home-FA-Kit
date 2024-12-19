@@ -5,13 +5,13 @@ using DataLayer;
 
 namespace Home_FA_Kit
 {
-    public partial class EditTakingMedicationPage : ContentPage
+    public partial class EditMedicationIntakePage : ContentPage
     {
         private PharmacyApp _pharmacyApp;
         private MedicationEvent _currentEvent;
         private MedicineTakenStatus _selectedMedicine;
 
-        public EditTakingMedicationPage(PharmacyApp pharmacyApp, MedicationEvent currentEvent, MedicineTakenStatus selectedMedicine)
+        public EditMedicationIntakePage(PharmacyApp pharmacyApp, MedicationEvent currentEvent, MedicineTakenStatus selectedMedicine)
         {
             InitializeComponent();
             _pharmacyApp = pharmacyApp;

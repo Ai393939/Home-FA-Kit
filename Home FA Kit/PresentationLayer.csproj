@@ -59,6 +59,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\pattern.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -70,8 +74,38 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="AddMedicineToTakePage - Копировать.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
 	  <Compile Update="AddMedicineToTakePage.xaml.cs">
 	    <DependentUpon>AddMedicineToTakePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="AppShell - Копировать.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="CreateFirstAidKitPage.xaml.cs">
+	    <DependentUpon>CreateFirstAidKitPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="CreateMedicinePage - Копировать.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="EditMedicationIntakePage - Копировать.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
+	  </Compile>
+	  <Compile Update="EditMedicinePage.xaml.cs">
+	    <DependentUpon>EditMedicinePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="EditFirstAidKitPage.xaml.cs">
+	    <DependentUpon>EditFirstAidKitPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="EditMedicationIntakePage.xaml.cs">
+	    <DependentUpon>EditMedicationIntakePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MedicationIntakePage.xaml.cs">
+	    <DependentUpon>MedicationIntakePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="MedicinesPage - Копировать.xaml.cs">
+	    <DependentUpon>%(Filename)</DependentUpon>
 	  </Compile>
 	  <Compile Update="Resources\Strings\AppResources.Designer.cs">
 	    <DesignTime>True</DesignTime>
@@ -88,31 +122,43 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="AddMedicineToTakePage - Копировать.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="AddMedicineToTakePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="AppShell - Копировать.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CreateMedicinePage - Копировать.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="CreateMedicinePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CreatePharmacyPage.xaml">
+	  <MauiXaml Update="CreateFirstAidKitPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EditPharmacyPage.xaml">
+	  <MauiXaml Update="EditFirstAidKitPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="EditTakingMedicationPage.xaml">
+	  <MauiXaml Update="EditMedicationIntakePage - Копировать.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ExpiredMedicinesPage.xaml">
+	  <MauiXaml Update="EditMedicationIntakePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MedicationPage.xaml">
+	  <MauiXaml Update="MedicationIntakePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="MedicinesPage - Копировать.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="MedicinesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="OneMedicinePage.xaml">
+	  <MauiXaml Update="EditMedicinePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="SettingsPage.xaml">

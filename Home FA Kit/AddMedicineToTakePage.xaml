@@ -1,20 +1,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Home_FA_Kit.AddMedicineToTakePage"
-             Title="Добавление лекарства">
+             xmlns:resources="clr-namespace:Home_FA_Kit.Resources.Strings">
+
     <ContentPage.Content>
         <StackLayout Padding="10">
-            <Label Text="Выберите лекарство:" FontSize="18" />
-            <Picker x:Name="medicinePicker" />
+            <!-- Поиск лекарства -->
+            <Label Text="{x:Static resources:AppResources.MedicineSearch}" FontSize="18" />
+            <Entry x:Name="searchEntry" TextChanged="OnSearchTextChanged" Placeholder="{x:Static resources:AppResources.Entry_MedicineName}" />
 
-            <Label Text="Выберите дату начала:" FontSize="18" />
-            <DatePicker x:Name="dateFromPicker" />
+            <!-- Выбор лекарства -->
+            <Label Text="{x:Static resources:AppResources.ChooseMedicine}" FontSize="18" />
+            <Frame Padding="5" Margin="0,5,0,10" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <Picker x:Name="medicinePicker" />
+            </Frame>
 
-            <Label Text="Выберите дату окончания:" FontSize="18" />
-            <DatePicker x:Name="dateToPicker" />
+            <!-- Выбор даты начала -->
+            <Label Text="{x:Static resources:AppResources.ChooseStartDate}" FontSize="18" />
+            <Frame Padding="5" Margin="0,5,0,10" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <DatePicker x:Name="dateFromPicker" />
+            </Frame>
 
-            <Label Text="Выберите дни недели:" FontSize="18" />
-            <Button Text="Выбрать все дни" Clicked="OnSelectAllDaysClicked" />
+            <!-- Выбор даты окончания -->
+            <Label Text="{x:Static resources:AppResources.ChooseEndDate}" FontSize="18" />
+            <Frame Padding="5" Margin="0,5,0,10" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <DatePicker x:Name="dateToPicker" />
+            </Frame>
+
+            <!-- Выбор дней недели -->
+            <Label Text="{x:Static resources:AppResources.ChooseDayOfTheWeek}" FontSize="18" />
+            <Button Text="{x:Static resources:AppResources.ChooseAllDays}" Clicked="OnSelectAllDaysClicked" TextColor="White"
+                    BackgroundColor="{AppThemeBinding Light=#7B51BC, Dark=#244A80}" 
+                    BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                    BorderWidth="2" CornerRadius="10" />
             <ListView x:Name="daysOfWeekListView">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -22,17 +46,27 @@
                             <StackLayout Orientation="Horizontal" Padding="10">
                                 <CheckBox IsChecked="{Binding IsSelected}" 
                                           CheckedChanged="OnDayCheckedChanged" />
-                                <Label Text="{Binding DayName}" VerticalOptions="Center" />
+                                <Label Text="{Binding DayName}" VerticalOptions="Center" 
+                                       TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
 
-            <Label Text="Выберите время приема:" FontSize="18" />
-            <TimePicker x:Name="timePicker" Format="HH:mm" PropertyChanged="OnTimePickerPropertyChanged" />
+            <!-- Выбор времени приема -->
+            <Label Text="{x:Static resources:AppResources.ChooseTime}" FontSize="18" />
+            <Frame Padding="5" HasShadow="True" CornerRadius="10" 
+                   BorderColor="{AppThemeBinding Light=#A683DF, Dark=#377A98}" 
+                   BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#152069}">
+                <TimePicker x:Name="timePicker" Format="HH:mm" PropertyChanged="OnTimePickerPropertyChanged" />
+            </Frame>
 
-            <Button Text="Добавить лекарство" Clicked="OnAddMedicineClicked" />
+            <!-- Кнопка добавления лекарства -->
+            <Button Text="{x:Static resources:AppResources.AddMedicine}" Clicked="OnAddMedicineClicked" TextColor="White"
+                    BackgroundColor="{AppThemeBinding Light=#6687BB, Dark=#4A90E2}" 
+                    BorderColor="{AppThemeBinding Light=#CCCCCC, Dark=#377A98}" 
+                    BorderWidth="2" CornerRadius="10" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
